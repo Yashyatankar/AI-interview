@@ -41,11 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'rest_framework_simplejwt',
 
     'accounts',
-    'rest_framework_simplejwt.token_blacklist',
+    
 ]
 
 
