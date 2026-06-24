@@ -1,8 +1,10 @@
 import React from 'react'
-
+import AuthPage from './Components/AuthPage'
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <AuthPage/>
+    </>
   )
 }
 
