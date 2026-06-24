@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'http://localhost:8000/',
 });
 
 // --- Root ---
@@ -79,7 +79,7 @@ function LoginForm({ onToggle }) {
     setStatus(null);
 
     try {
-      const res = await api.post('/auth/login/', {
+      const res = await api.post('/accounts/login/', {
         email: formData.email,
         password: formData.password,
       });
@@ -188,7 +188,7 @@ function SignupForm({ onToggle }) {
     setStatus(null);
 
     try {
-      const res = await api.post('/auth/register/', {
+      const res = await api.post('/accounts/register/', {
         username: formData.username,
         email: formData.email,
         password: formData.password,
