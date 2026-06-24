@@ -188,7 +188,7 @@ function SignupForm({ onToggle }) {
     setStatus(null);
 
     try {
-      await api.post('/auth/register/', {
+      const res = await api.post('/auth/register/', {
         username: formData.username,
         email: formData.email,
         password: formData.password,
