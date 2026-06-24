@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Make sure react-router-dom is installed!
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/',
@@ -12,24 +12,23 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen bg-[linear-gradient(135deg,#0a0e27_0%,#1a1f3a_50%,#0d1b2a_100%)] flex justify-center items-center text-[#e0e0e0] font-sans p-4">
       <div className="w-full max-w-[450px]">
-        {isLogin
-          ? <LoginForm onToggle={() => setIsLogin(false)} />
-          : <SignupForm onToggle={() => setIsLogin(true)} />
-        }
+        {isLogin ? (
+          <LoginForm onToggle={() => setIsLogin(false)} />
+        ) : (
+          <SignupForm onToggle={() => setIsLogin(true)} />
+        )}
       </div>
     </div>
   );
 }
 
-
+// --- Social Auth ---
 function SocialAuth() {
-  
   const handleGoogleLogin = () => {
     const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
     const options = {
-      // The path we just designated in step 2:
-      redirect_uri: 'http://localhost:5173/auth/google/callback', 
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // Replace this!
+      redirect_uri: 'http://localhost:5173/auth/google/callback',
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
       access_type: 'offline',
       response_type: 'code',
       prompt: 'consent',
@@ -45,8 +44,8 @@ function SocialAuth() {
   const handleGithubLogin = () => {
     const rootUrl = 'https://github.com/login/oauth/authorize';
     const options = {
-      client_id: import.meta.env.VITE_GITHUB_CLIENT_ID, // Replace this!
-      redirect_uri: 'http://localhost:5173/auth/github/callback', 
+      client_id: import.meta.env.VITE_GITHUB_CLIENT_ID,
+      redirect_uri: 'http://localhost:5173/auth/github/callback',
       scope: 'user:email',
     };
 
@@ -94,8 +93,9 @@ function StatusMsg({ message, type }) {
 function LoginForm({ onToggle }) {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState(null); // { message, type }
+  const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Declared securely inside LoginForm
 
   const validate = () => {
     const e = {};
@@ -121,7 +121,10 @@ function LoginForm({ onToggle }) {
       localStorage.setItem('access', res.data.tokens.access);
       localStorage.setItem('refresh', res.data.tokens.refresh);
       setStatus({ message: res.data.message, type: 'success' });
-      // navigate('/dashboard');  // uncomment when React Router is set up
+      
+      setTimeout(() => {
+        navigate('/dashboard'); // Routed straight to your AI Interview Dashboard hub
+      }, 1000);
 
     } catch (err) {
       const data = err.response?.data;
@@ -203,6 +206,7 @@ function SignupForm({ onToggle }) {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Added missing initialization inside SignupForm
 
   const validate = () => {
     const e = {};
@@ -214,7 +218,7 @@ function SignupForm({ onToggle }) {
     return Object.keys(e).length === 0;
   };
 
- const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
@@ -222,31 +226,30 @@ function SignupForm({ onToggle }) {
     setStatus(null);
 
     try {
-      const res = await api.post('/accounts/login/', {
+      // 💡 NOTE: Changed endpoint path here from '/accounts/login/' to '/accounts/register/'
+      const res = await api.post('/accounts/register/', {
+        username: formData.username,
         email: formData.email,
         password: formData.password,
       });
 
-      // Save tokens
       localStorage.setItem('access', res.data.tokens.access);
       localStorage.setItem('refresh', res.data.tokens.refresh);
       
       setStatus({ message: res.data.message, type: 'success' });
 
-      // Change '/' or '/landing' to whatever route your landing page is on
       setTimeout(() => {
-        navigate('/landing'); 
-      }, 1000); // 1-second delay so they see your success message!
+        navigate('/dashboard'); 
+      }, 1000);
 
     } catch (err) {
       const data = err.response?.data;
-      const msg = data?.non_field_errors?.[0] || data?.detail || 'Invalid credentials. Try again.';
+      const msg = data?.non_field_errors?.[0] || data?.detail || 'Registration failed. Try again.';
       setStatus({ message: msg, type: 'error' });
     } finally {
       setLoading(false);
     }
-  };
-  };
+  }; // Rogue bracket cleanly removed right here
 
   const inputClass = (field) =>
     `w-full px-4 py-3 bg-white/5 border rounded-lg text-[#e0e0e0] text-sm placeholder-[#606060] focus:outline-none focus:bg-white/10 transition-all duration-300 ${
@@ -306,3 +309,4 @@ function SignupForm({ onToggle }) {
       </div>
     </div>
   );
+}

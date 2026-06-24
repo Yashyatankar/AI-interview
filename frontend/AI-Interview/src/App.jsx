@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthPage from './Components/AuthPage';
 import OAuthCallback from './OAuthCallback';
 import DashBoard from './Components/DashBoard';
-import { useNavigate } from 'react-router-dom';
 
 export default function App() {
   return (
