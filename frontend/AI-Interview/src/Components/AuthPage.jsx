@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/',
@@ -213,7 +214,7 @@ function SignupForm({ onToggle }) {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
@@ -221,29 +222,30 @@ function SignupForm({ onToggle }) {
     setStatus(null);
 
     try {
-      const res = await api.post('/accounts/register/', {
-        username: formData.username,
+      const res = await api.post('/accounts/login/', {
         email: formData.email,
         password: formData.password,
       });
 
+      // Save tokens
       localStorage.setItem('access', res.data.tokens.access);
       localStorage.setItem('refresh', res.data.tokens.refresh);
+      
       setStatus({ message: res.data.message, type: 'success' });
-      setTimeout(() => onToggle(), 1500);
+
+      // Change '/' or '/landing' to whatever route your landing page is on
+      setTimeout(() => {
+        navigate('/landing'); 
+      }, 1000); // 1-second delay so they see your success message!
 
     } catch (err) {
       const data = err.response?.data;
-      const msg =
-        data?.email?.[0] ||
-        data?.username?.[0] ||
-        data?.password?.[0] ||
-        data?.detail ||
-        'Signup failed. Please try again.';
+      const msg = data?.non_field_errors?.[0] || data?.detail || 'Invalid credentials. Try again.';
       setStatus({ message: msg, type: 'error' });
     } finally {
       setLoading(false);
     }
+  };
   };
 
   const inputClass = (field) =>
@@ -304,4 +306,3 @@ function SignupForm({ onToggle }) {
       </div>
     </div>
   );
-}
