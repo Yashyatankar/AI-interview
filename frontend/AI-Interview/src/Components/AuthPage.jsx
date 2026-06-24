@@ -20,19 +20,52 @@ export default function AuthPage() {
   );
 }
 
-// --- Social Buttons ---
+
 function SocialAuth() {
+  
+  const handleGoogleLogin = () => {
+    const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+    const options = {
+      // The path we just designated in step 2:
+      redirect_uri: 'http://localhost:5173/auth/google/callback', 
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // Replace this!
+      access_type: 'offline',
+      response_type: 'code',
+      prompt: 'consent',
+      scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
+      ].join(' '),
+    };
+
+    window.location.href = `${rootUrl}?${new URLSearchParams(options).toString()}`;
+  };
+
+  const handleGithubLogin = () => {
+    const rootUrl = 'https://github.com/login/oauth/authorize';
+    const options = {
+      client_id: import.meta.env.VITE_GITHUB_CLIENT_ID, // Replace this!
+      redirect_uri: 'http://localhost:5173/auth/github/callback', 
+      scope: 'user:email',
+    };
+
+    window.location.href = `${rootUrl}?${new URLSearchParams(options).toString()}`;
+  };
+
   return (
     <div className="flex gap-3 mb-5">
-      {['Google', 'GitHub'].map((p) => (
-        <button
-          key={p}
-          onClick={() => alert(`${p} OAuth coming soon!`)}
-          className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-[#c0c0c0] text-xs font-medium cursor-pointer transition-all duration-300 hover:bg-[#ff6bb9]/10 hover:border-[#ff6bb9]/30"
-        >
-          {p}
-        </button>
-      ))}
+      <button
+        onClick={handleGoogleLogin}
+        className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-[#c0c0c0] text-xs font-medium cursor-pointer transition-all duration-300 hover:bg-[#ff6bb9]/10 hover:border-[#ff6bb9]/30"
+      >
+        Google
+      </button>
+      <button
+        onClick={handleGithubLogin}
+        className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-lg text-[#c0c0c0] text-xs font-medium cursor-pointer transition-all duration-300 hover:bg-[#ff6bb9]/10 hover:border-[#ff6bb9]/30"
+      >
+        GitHub
+      </button>
     </div>
   );
 }

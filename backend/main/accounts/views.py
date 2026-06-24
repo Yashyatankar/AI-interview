@@ -4,6 +4,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, LoginSerializer
+from django.conf import settings
+import requests
+from django.contrib.auth import get_user_model
 
 
 def get_tokens_for_user(user):
@@ -81,3 +84,79 @@ class UserView(APIView):
             'username': user.username,
             'email': user.email,
         }, status=status.HTTP_200_OK)
+
+
+
+
+
+User = get_user_model()
+
+class GoogleLoginCallbackView(APIView):
+    def post(self, request):
+        code = request.data.get('code')
+        if not code:
+            return Response({'error': 'Authorization code is missing'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Step A: Exchange React's auth code for a Google Access Token
+            token_url = "https://oauth2.googleapis.com/token"
+            token_data = {
+                'code': code,
+                'client_id': settings.GOOGLE_CLIENT_ID, 
+                'client_secret': settings.GOOGLE_CLIENT_SECRET,                
+                'redirect_uri': 'http://localhost:5173/auth/google/callback',
+                'grant_type': 'authorization_code',
+            }
+            
+            token_res = requests.post(token_url, data=token_data)
+            token_res_data = token_res.json()
+            
+            if 'error' in token_res_data:
+                return Response({'error': 'Google token exchange failed', 'details': token_res_data}, status=status.HTTP_400_BAD_REQUEST)
+                
+            access_token = token_res_data.get('access_token')
+
+            # Step B: Get user details from Google using that token
+            user_info_url = "https://www.googleapis.com/oauth2/v2/userinfo"
+            user_info_res = requests.get(user_info_url, headers={'Authorization': f'Bearer {access_token}'})
+            google_user = user_info_res.json()
+
+            email = google_user.get('email')
+            
+            if not email:
+                return Response({'error': 'Could not fetch email from Google'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+            username_suggestion = google_user.get('name', email.split('@')[0]).replace(" ", "").lower()
+
+            user, created = User.objects.get_or_create(
+                email=email,
+                defaults={
+                    'username': username_suggestion,
+
+                }
+            )
+
+            # If it's a new user and you don't want them to log in with passwords later unless they reset it:
+            if created:
+                user.set_unusable_password()
+                user.save()
+
+            # Step D: Put your user model through your existing Serializer!
+            # Assuming your serializer generates tokens or handles JWT generation:
+            serializer = RegisterSerializer(user)
+            
+            # If your serializer natively outputs the user data and tokens, return serializer.data
+            # Otherwise, manually generate tokens using your JWT setup (e.g., SimpleJWT)
+            return Response({
+                'message': 'Successfully authenticated via Google',
+                'user': serializer.data,
+                'tokens': {
+                    # If your serializer doesn't provide tokens, append your custom token logic here
+                    'access': 'YOUR_GENERATED_ACCESS_JWT_TOKEN', 
+                    'refresh': 'YOUR_GENERATED_REFRESH_JWT_TOKEN'
+                }
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
