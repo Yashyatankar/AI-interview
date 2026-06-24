@@ -84,14 +84,14 @@ function LoginForm({ onToggle }) {
         password: formData.password,
       });
 
-      localStorage.setItem('access', res.data.access);
-      localStorage.setItem('refresh', res.data.refresh);
-      setStatus({ message: 'Login successful! Redirecting...', type: 'success' });
+      localStorage.setItem('access', res.data.tokens.access);
+      localStorage.setItem('refresh', res.data.tokens.refresh);
+      setStatus({ message: res.data.message, type: 'success' });
       // navigate('/dashboard');  // uncomment when React Router is set up
 
     } catch (err) {
       const data = err.response?.data;
-      const msg = data?.detail || data?.non_field_errors?.[0] || 'Invalid credentials. Try again.';
+      const msg = data?.non_field_errors?.[0] || data?.detail || 'Invalid credentials. Try again.';
       setStatus({ message: msg, type: 'error' });
     } finally {
       setLoading(false);
@@ -194,7 +194,9 @@ function SignupForm({ onToggle }) {
         password: formData.password,
       });
 
-      setStatus({ message: 'Account created! Switching to login...', type: 'success' });
+      localStorage.setItem('access', res.data.tokens.access);
+      localStorage.setItem('refresh', res.data.tokens.refresh);
+      setStatus({ message: res.data.message, type: 'success' });
       setTimeout(() => onToggle(), 1500);
 
     } catch (err) {

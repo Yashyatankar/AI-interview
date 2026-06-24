@@ -1,9 +1,15 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 
 User = get_user_model()
+
+class EmailTokenSerializer(TokenObtainPairSerializer):
+    username_field = 'email'
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
