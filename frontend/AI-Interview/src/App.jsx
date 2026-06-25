@@ -10,8 +10,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<AuthPage />} />
         
-        <Route path="/auth/google/callback" element={<OAuthCallback provider="google" />} />
-        <Route path="/auth/github/callback" element={<OAuthCallback provider="github" />} />
+        <Route path="/auth/google/callback" element={<GoogleCallback />} />
+        <Route path="/auth/github/callback" element={<GithubCallback />} />
         
         <Route path="/dashboard" element={<DashBoard/>} />
       </Routes>

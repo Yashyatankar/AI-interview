@@ -91,71 +91,125 @@ class UserView(APIView):
 
 User = get_user_model()
 
+
 class GoogleLoginCallbackView(APIView):
+    permission_classes = []
+
     def post(self, request):
         code = request.data.get('code')
         if not code:
-            return Response({'error': 'Authorization code is missing'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Authorization code missing'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            # Step A: Exchange React's auth code for a Google Access Token
-            token_url = "https://oauth2.googleapis.com/token"
-            token_data = {
-                'code': code,
-                'client_id': settings.GOOGLE_CLIENT_ID, 
-                'client_secret': settings.GOOGLE_CLIENT_SECRET,                
-                'redirect_uri': 'http://localhost:5173/auth/google/callback', # Must match frontend!
-                'grant_type': 'authorization_code',
+        # Step 1: Exchange code for Google access token
+        token_res = requests.post('https://oauth2.googleapis.com/token', data={
+            'code': code,
+            'client_id': settings.GOOGLE_CLIENT_ID,
+            'client_secret': settings.GOOGLE_CLIENT_SECRET,
+            'redirect_uri': 'http://localhost:5173/auth/google/callback',
+            'grant_type': 'authorization_code',
+        })
+        token_data = token_res.json()
+
+        if 'error' in token_data:
+            return Response({'error': 'Google token exchange failed', 'details': token_data}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Step 2: Fetch user info from Google
+        user_info_res = requests.get(
+            'https://www.googleapis.com/oauth2/v2/userinfo',
+            headers={'Authorization': f'Bearer {token_data["access_token"]}'}
+        )
+        google_user = user_info_res.json()
+
+        email = google_user.get('email')
+        if not email:
+            return Response({'error': 'Could not retrieve email from Google'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Step 3: Get or create user
+        username = google_user.get('name', email.split('@')[0]).replace(' ', '').lower()
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={'username': username}
+        )
+        if created:
+            user.set_unusable_password()
+            user.save()
+
+        # Step 4: Issue JWT tokens
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'message': 'Google login successful',
+            'user': {'id': user.id, 'username': user.username, 'email': user.email},
+            'tokens': {
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
             }
-            
-            token_res = requests.post(token_url, data=token_data)
-            token_res_data = token_res.json()
-            
-            if 'error' in token_res_data:
-                return Response({
-                    'error': 'Google token exchange failed', 
-                    'details': token_res_data
-                }, status=status.HTTP_400_BAD_REQUEST)
-                
-            access_token = token_res_data.get('access_token')
+        }, status=status.HTTP_200_OK)
 
-            # Step B: Get user details from Google using that token
-            user_info_url = "https://www.googleapis.com/oauth2/v2/userinfo"
-            user_info_res = requests.get(user_info_url, headers={'Authorization': f'Bearer {access_token}'})
-            google_user = user_info_res.json()
 
-            email = google_user.get('email')
-            if not email:
-                return Response({'error': 'Could not fetch email from Google'}, status=status.HTTP_400_BAD_REQUEST)
+class GithubLoginCallbackView(APIView):
+    permission_classes = []
 
-            # Generate a clean username suggestion
-            username_suggestion = google_user.get('name', email.split('@')[0]).replace(" ", "").lower()
+    def post(self, request):
+        code = request.data.get('code')
+        if not code:
+            return Response({'error': 'Authorization code missing'}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Find or create user
-            user, created = User.objects.get_or_create(
-                email=email,
-                defaults={
-                    'username': username_suggestion,
-                }
+        # Step 1: Exchange code for GitHub access token
+        token_res = requests.post(
+            'https://github.com/login/oauth/access_token',
+            data={
+                'code': code,
+                'client_id': settings.GITHUB_CLIENT_ID,
+                'client_secret': settings.GITHUB_CLIENT_SECRET,
+                'redirect_uri': 'http://localhost:5173/auth/github/callback',
+            },
+            headers={'Accept': 'application/json'}
+        )
+        token_data = token_res.json()
+
+        if 'error' in token_data:
+            return Response({'error': 'GitHub token exchange failed', 'details': token_data}, status=status.HTTP_400_BAD_REQUEST)
+
+        access_token = token_data.get('access_token')
+
+        # Step 2: Fetch GitHub user profile
+        user_info_res = requests.get(
+            'https://api.github.com/user',
+            headers={'Authorization': f'Bearer {access_token}'}
+        )
+        github_user = user_info_res.json()
+
+        # Step 3: Fetch email (GitHub may not return email in /user if it's private)
+        email = github_user.get('email')
+        if not email:
+            emails_res = requests.get(
+                'https://api.github.com/user/emails',
+                headers={'Authorization': f'Bearer {access_token}'}
             )
+            emails = emails_res.json()
+            # Pick the primary verified email
+            primary = next((e for e in emails if e.get('primary') and e.get('verified')), None)
+            if not primary:
+                return Response({'error': 'Could not retrieve a verified email from GitHub'}, status=status.HTTP_400_BAD_REQUEST)
+            email = primary['email']
 
-            if created:
-                user.set_unusable_password()
-                user.save()
+        # Step 4: Get or create user
+        username = (github_user.get('login') or email.split('@')[0]).lower()
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={'username': username}
+        )
+        if created:
+            user.set_unusable_password()
+            user.save()
 
-            # Step C: Generate actual SimpleJWT tokens 🔑
-            refresh = RefreshToken.for_user(user)
-
-            serializer = RegisterSerializer(user)
-            
-            return Response({
-                'message': 'Successfully authenticated via Google',
-                'user': serializer.data,
-                'tokens': {
-                    'access': str(refresh.access_token), 
-                    'refresh': str(refresh)
-                }
-            }, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # Step 5: Issue JWT tokens
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'message': 'GitHub login successful',
+            'user': {'id': user.id, 'username': user.username, 'email': user.email},
+            'tokens': {
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+            }
+        }, status=status.HTTP_200_OK)
