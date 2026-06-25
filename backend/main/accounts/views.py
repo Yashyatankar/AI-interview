@@ -104,7 +104,7 @@ class GoogleLoginCallbackView(APIView):
                 'code': code,
                 'client_id': settings.GOOGLE_CLIENT_ID, 
                 'client_secret': settings.GOOGLE_CLIENT_SECRET,                
-                'redirect_uri': 'http://localhost:5173/auth/google/callback',
+                'redirect_uri': 'http://localhost:5173/auth/google/callback', # Must match frontend!
                 'grant_type': 'authorization_code',
             }
             
@@ -112,7 +112,10 @@ class GoogleLoginCallbackView(APIView):
             token_res_data = token_res.json()
             
             if 'error' in token_res_data:
-                return Response({'error': 'Google token exchange failed', 'details': token_res_data}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({
+                    'error': 'Google token exchange failed', 
+                    'details': token_res_data
+                }, status=status.HTTP_400_BAD_REQUEST)
                 
             access_token = token_res_data.get('access_token')
 
@@ -122,39 +125,35 @@ class GoogleLoginCallbackView(APIView):
             google_user = user_info_res.json()
 
             email = google_user.get('email')
-            
             if not email:
                 return Response({'error': 'Could not fetch email from Google'}, status=status.HTTP_400_BAD_REQUEST)
 
-
+            # Generate a clean username suggestion
             username_suggestion = google_user.get('name', email.split('@')[0]).replace(" ", "").lower()
 
+            # Find or create user
             user, created = User.objects.get_or_create(
                 email=email,
                 defaults={
                     'username': username_suggestion,
-
                 }
             )
 
-            # If it's a new user and you don't want them to log in with passwords later unless they reset it:
             if created:
                 user.set_unusable_password()
                 user.save()
 
-            # Step D: Put your user model through your existing Serializer!
-            # Assuming your serializer generates tokens or handles JWT generation:
+            # Step C: Generate actual SimpleJWT tokens 🔑
+            refresh = RefreshToken.for_user(user)
+
             serializer = RegisterSerializer(user)
             
-            # If your serializer natively outputs the user data and tokens, return serializer.data
-            # Otherwise, manually generate tokens using your JWT setup (e.g., SimpleJWT)
             return Response({
                 'message': 'Successfully authenticated via Google',
                 'user': serializer.data,
                 'tokens': {
-                    # If your serializer doesn't provide tokens, append your custom token logic here
-                    'access': 'YOUR_GENERATED_ACCESS_JWT_TOKEN', 
-                    'refresh': 'YOUR_GENERATED_REFRESH_JWT_TOKEN'
+                    'access': str(refresh.access_token), 
+                    'refresh': str(refresh)
                 }
             }, status=status.HTTP_200_OK)
 
