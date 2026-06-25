@@ -1,8 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AuthPage from './Components/AuthPage';
-import OAuthCallback from './OAuthCallback';
 import DashBoard from './Components/DashBoard';
+import OAuthCallback from './Components/OAuthCallback';
+
+const { GoogleCallback, GithubCallback } = OAuthCallback;
+
+console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID)
 
 export default function App() {
   return (

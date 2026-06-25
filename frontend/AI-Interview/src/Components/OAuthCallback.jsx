@@ -1,4 +1,3 @@
-// src/OAuthCallbacks.jsx
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,7 +10,7 @@ export function GoogleCallback() {
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get('code');
     if (!code) {
-      navigate('/auth');
+      navigate('/dashboard');
       return;
     }
 
@@ -21,7 +20,7 @@ export function GoogleCallback() {
         localStorage.setItem('refresh', res.data.tokens.refresh);
         navigate('/dashboard');
       })
-      .catch(() => navigate('/auth'));
+      .catch(() => navigate('/dashboard'));
   }, []);
 
   return <div className="min-h-screen flex items-center justify-center text-white">Signing you in with Google...</div>;
@@ -33,7 +32,7 @@ export function GithubCallback() {
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get('code');
     if (!code) {
-      navigate('/auth');
+      navigate('/dashboard');
       return;
     }
 
@@ -43,8 +42,9 @@ export function GithubCallback() {
         localStorage.setItem('refresh', res.data.tokens.refresh);
         navigate('/dashboard');
       })
-      .catch(() => navigate('/auth'));
+      .catch(() => navigate('/dashboard'));
   }, []);
 
   return <div className="min-h-screen flex items-center justify-center text-white">Signing you in with GitHub...</div>;
 }
+export default { GoogleCallback, GithubCallback };
