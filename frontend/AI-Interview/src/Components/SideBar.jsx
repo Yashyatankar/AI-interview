@@ -1,6 +1,8 @@
 import { useState } from "react";
 import '@tabler/icons-webfont/dist/tabler-icons.css';
 import axios from "axios";
+import useCurrentUser from "./useCurrentUser";
+
 
 const navItems = [
   { section: "Main" },
@@ -17,8 +19,12 @@ const navItems = [
   { icon: "help-circle", label: "Help & Support", path: "/help" },
 ];
 
+const user = useCurrentUser();
+
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
+
+
 
   return (
     <aside
@@ -118,8 +124,8 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
               collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           >
-            <p className="text-[13px] font-medium text-zinc-900 truncate">Yash</p>
-            <p className="text-[11px] text-zinc-400 truncate">yash@email.com</p>
+            <p className="text-[13px] font-medium text-zinc-900 truncate">{user?.name}</p>
+            <p className="text-[11px] text-zinc-400 truncate">{user?.email}</p>
           </div>
           {!collapsed && (
             <i className="ti ti-dots text-zinc-400 text-base flex-shrink-0" aria-hidden="true" />
