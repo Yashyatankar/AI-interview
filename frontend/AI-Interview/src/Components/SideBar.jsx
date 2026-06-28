@@ -1,5 +1,6 @@
 import { useState } from "react";
 import '@tabler/icons-webfont/dist/tabler-icons.css';
+import axios from "axios";
 
 const navItems = [
   { section: "Main" },
@@ -73,7 +74,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
                 onClick={() => onNavigate?.(item.path)}
                 className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
-                    ? "bg-[#1a0a0a] text-[#e63946]"
+                    ? "bg-[#5736c6] text-[#ffffff]"
                     : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
                 }`}
               >
