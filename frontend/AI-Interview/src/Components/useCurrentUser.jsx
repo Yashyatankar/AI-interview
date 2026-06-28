@@ -5,9 +5,7 @@ const useCurrentUser = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/users/auth/me/')
-      .then(res => setUser(res.data))
-      .catch(err => console.error(err));
+    axios.get('/api/users/auth/me/').then(r => console.log(r.data)).catch(e => console.log(e.response))
   }, []);
 
   return user;
