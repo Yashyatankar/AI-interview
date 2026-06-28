@@ -124,7 +124,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
               collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           >
-            <p className="text-[13px] font-medium text-zinc-900 truncate">{user?.name}</p>
+            <p className="text-[13px] font-medium text-zinc-900 truncate">{user?.username}</p>
             <p className="text-[11px] text-zinc-400 truncate">{user?.email}</p>
           </div>
           {!collapsed && (
