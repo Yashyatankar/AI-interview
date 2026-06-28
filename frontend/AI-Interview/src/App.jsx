@@ -6,7 +6,7 @@ import OAuthCallback from './Components/OAuthCallback';
 
 const { GoogleCallback, GithubCallback } = OAuthCallback;
 
-console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID)
+
 
 export default function App() {
   return (

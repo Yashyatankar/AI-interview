@@ -1,12 +1,12 @@
 import React from 'react'
+import SideBar from './SideBar'
 
 const DashBoard = () => {
   return (
 <>
-    <section className="bg-black w-full h-screen">
-    <h1 className="text-white">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    </h1>
+    
+    <section className='bg-black h-screen w-full'>
+        <SideBar/>
     </section>
 </>
 )
