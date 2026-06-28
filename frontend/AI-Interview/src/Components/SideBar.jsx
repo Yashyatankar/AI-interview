@@ -19,12 +19,12 @@ const navItems = [
   { icon: "help-circle", label: "Help & Support", path: "/help" },
 ];
 
-const user = useCurrentUser();
+
 
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
 
-
+    const user = useCurrentUser();
 
   return (
     <aside

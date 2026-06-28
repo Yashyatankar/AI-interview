@@ -1,7 +1,6 @@
-from pathlib import Path
+from django.urls import path
 from .views import userDetail
 
-
 urlpatterns = [
-    Path('auth/me', userDetail() )
+   path('auth/me/', userDetail)
 ]
