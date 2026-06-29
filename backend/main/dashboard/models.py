@@ -52,9 +52,9 @@ class InterViewSession(models.Model):
     ]
 
     STATUS_CHOICE = [
-        ('beginner','Beginner')
-        ('intermidiate', 'Intermidiate')
-        ('professional', 'professional')
+        ('beginner','Beginner'),
+        ('intermidiate', 'Intermidiate'),
+        ('professional', 'professional'),
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -67,9 +67,65 @@ class InterViewSession(models.Model):
     rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES)
     jobField = models.CharField(choices=JOB_FIELD_CHOICES)
     total_questions = models.PositiveIntegerField(default=10)
+    status = models.CharField(choices=STATUS_CHOICE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    overall_score = models.FloatField(null=True, blank=True)
 
 
-class ClientLevel(models.Model):
+    class Meta:
+        ordering = ['-created_at']
 
-    level = models.CharField(choices=STATUS_CHOICE)
 
+    def __str__(self):
+        return f"{self.jobField} {self.status}"
+
+
+
+
+class InterViewQuestions(models.Model):
+
+    TOPIC_CHOICES = [
+        ('core_concepts', 'Core Concepts'),
+        ('practical', 'Practical / Coding'),
+        ('system_design', 'System Design'),
+        ('best_practices', 'Best Practices'),
+        ('debugging', 'Debugging'),
+        ('behavioral', 'Behavioral'),]
+
+    DIFFICULTY_CHOICES = [
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
+    ]
+
+    session = models.ForeignKey(InterViewSession, on_delete=models.CASCADE, related_name='questions')
+    order = models.PositiveIntegerField()
+    text = models.TextField()
+    topic = models.CharField(max_length=20, choices=TOPIC_CHOICES, default='core_concepts')
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='medium')
+    expected_keywords = models.JSONField(default=list)  
+    created_at = models.DateTimeField(auto_now_add=True)
+ 
+    class Meta:
+        ordering = ['order']
+        unique_together = ('session', 'order')
+ 
+    def __str__(self):
+        return f"Q{self.order}: {self.text[:60]}"
+
+
+class Answer(models.Model):
+    question = models.OneToOneField(InterViewQuestions, on_delete=models.CASCADE, related_name='answer')
+    text = models.TextField()
+    score = models.FloatField(null=True, blank=True)          # 0–10
+    feedback = models.TextField(blank=True)
+    strengths = models.JSONField(default=list)
+    improvements = models.JSONField(default=list)
+    time_taken_seconds = models.PositiveIntegerField(null=True, blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    evaluated_at = models.DateTimeField(null=True, blank=True)
+ 
+    def __str__(self):
+        return f"Answer to Q{self.question.order} — score: {self.score}"
+ 
