@@ -57,3 +57,5 @@ class OptionsForTechs(models.Model):
 
     rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES, reqiured=True)
     jobField = models.CharField(choices=JOB_FIELD_CHOICES, reqiured=True)
+
+
