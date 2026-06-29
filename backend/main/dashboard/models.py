@@ -4,12 +4,11 @@ from django.db import models
 
 PROGRAMMING_CHOICES = [
     ('python', 'Python'),
-    ('javascript', 'JavaScript'), # Fixed the typo here for database safety!
+    ('javascript', 'JavaScript'), 
     ('java', 'Java'),
     ('rust', 'Rust'),
 ]
 
-# Separate framework choices grouped by language
 PYTHON_FRAMEWORK_CHOICES = [
     ('django', 'Django'),
     ('flask', 'Flask'),
@@ -50,4 +49,11 @@ JOB_FIELD_CHOICES = [
 
 
 class OptionsForTechs(models.Model):
-    pass
+
+    programming = models.CharField(choices=PROGRAMMING_CHOICES, reqiured=True)
+    pythonFrameWork = models.CharField(choices=PYTHON_FRAMEWORK_CHOICES, reqiured=True)
+    javascriptFrameWork = models.CharField(choices=JAVASCRIPT_FRAMEWORK_CHOICES, reqiured=True)
+    javaFrameWork = models.CharField(choices=JAVA_FRAMEWORK_CHOICES, reqiured=True)
+
+    rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES, reqiured=True)
+    jobField = models.CharField(choices=JOB_FIELD_CHOICES, reqiured=True)
