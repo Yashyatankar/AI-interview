@@ -50,12 +50,12 @@ JOB_FIELD_CHOICES = [
 
 class OptionsForTechs(models.Model):
 
-    programming = models.CharField(choices=PROGRAMMING_CHOICES, reqiured=True)
-    pythonFrameWork = models.CharField(choices=PYTHON_FRAMEWORK_CHOICES, reqiured=True)
-    javascriptFrameWork = models.CharField(choices=JAVASCRIPT_FRAMEWORK_CHOICES, reqiured=True)
-    javaFrameWork = models.CharField(choices=JAVA_FRAMEWORK_CHOICES, reqiured=True)
+    programming = models.CharField(choices=PROGRAMMING_CHOICES)
+    pythonFrameWork = models.CharField(choices=PYTHON_FRAMEWORK_CHOICES)
+    javascriptFrameWork = models.CharField(choices=JAVASCRIPT_FRAMEWORK_CHOICES)
+    javaFrameWork = models.CharField(choices=JAVA_FRAMEWORK_CHOICES)
 
-    rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES, reqiured=True)
-    jobField = models.CharField(choices=JOB_FIELD_CHOICES, reqiured=True)
+    rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES)
+    jobField = models.CharField(choices=JOB_FIELD_CHOICES)
 
 
