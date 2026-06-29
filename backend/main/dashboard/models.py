@@ -1,54 +1,63 @@
 from django.db import models
+import uuid
 
 
 
-PROGRAMMING_CHOICES = [
+
+
+class InterViewSession(models.Model):
+    PROGRAMMING_CHOICES = [
     ('python', 'Python'),
     ('javascript', 'JavaScript'), 
     ('java', 'Java'),
     ('rust', 'Rust'),
-]
+    ]
 
-PYTHON_FRAMEWORK_CHOICES = [
-    ('django', 'Django'),
-    ('flask', 'Flask'),
-    ('fastapi', 'FastAPI'),
-]
+    PYTHON_FRAMEWORK_CHOICES = [
+        ('django', 'Django'),
+        ('flask', 'Flask'),
+        ('fastapi', 'FastAPI'),
+    ]
 
-JAVASCRIPT_FRAMEWORK_CHOICES = [
-    ('react', 'React'),
-    ('nodejs', 'Node.js'),
-    ('vue', 'Vue.js'),
-]
-
-
-JAVA_FRAMEWORK_CHOICES = [
-    ('spring_boot', 'Spring Boot'),
-    ('jakarta_ee', 'Jakarta EE'),
-]
+    JAVASCRIPT_FRAMEWORK_CHOICES = [
+        ('react', 'React'),
+        ('nodejs', 'Node.js'),
+        ('vue', 'Vue.js'),
+    ]
 
 
-RUST_FRAMEWORK_CHOICES = [
-    ('actix_web', 'Actix Web'),
-    ('axum', 'Axum'),
-]
+    JAVA_FRAMEWORK_CHOICES = [
+        ('spring_boot', 'Spring Boot'),
+        ('jakarta_ee', 'Jakarta EE'),
+    ]
 
 
-JOB_FIELD_CHOICES = [
-    ('full_stack', 'Full Stack Developer'),
-    ('frontend', 'Frontend Developer'),
-    ('backend', 'Backend Developer'),
-    ('mobile', 'Mobile App Developer'),
-    ('devops', 'DevOps / Cloud Engineer'),
-    ('data_science', 'Data Scientist / AI Engineer'),
-    ('cybersecurity', 'Cybersecurity Specialist'),
-    ('ui_ux', 'UI/UX Designer'),
-    ('qa_testing', 'QA / Test Engineer'),
-    ('product_manager', 'Product Manager'),
-]
+    RUST_FRAMEWORK_CHOICES = [
+        ('actix_web', 'Actix Web'),
+        ('axum', 'Axum'),
+    ]
 
 
-class OptionsForTechs(models.Model):
+    JOB_FIELD_CHOICES = [
+        ('full_stack', 'Full Stack Developer'),
+        ('frontend', 'Frontend Developer'),
+        ('backend', 'Backend Developer'),
+        ('mobile', 'Mobile App Developer'),
+        ('devops', 'DevOps / Cloud Engineer'),
+        ('data_science', 'Data Scientist / AI Engineer'),
+        ('cybersecurity', 'Cybersecurity Specialist'),
+        ('ui_ux', 'UI/UX Designer'),
+        ('qa_testing', 'QA / Test Engineer'),
+        ('product_manager', 'Product Manager'),
+    ]
+
+    STATUS_CHOICE = [
+        ('beginner','Beginner')
+        ('intermidiate', 'Intermidiate')
+        ('professional', 'professional')
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     programming = models.CharField(choices=PROGRAMMING_CHOICES)
     pythonFrameWork = models.CharField(choices=PYTHON_FRAMEWORK_CHOICES)
@@ -57,5 +66,10 @@ class OptionsForTechs(models.Model):
 
     rustFrameWork = models.CharField(choices=RUST_FRAMEWORK_CHOICES)
     jobField = models.CharField(choices=JOB_FIELD_CHOICES)
+    total_questions = models.PositiveIntegerField(default=10)
 
+
+class ClientLevel(models.Model):
+
+    level = models.CharField(choices=STATUS_CHOICE)
 
