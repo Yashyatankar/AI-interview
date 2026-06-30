@@ -15,7 +15,7 @@ from .serializers import (
     InterviewQuestionSerializer
 )
 # Assuming your AI logic file is named gemini_service.py
-from .gemini_service import generate_questions, evaluate_answer
+from .GeminService import generate_questions, evaluate_answer
 
 
 class InterviewSessionViewSet(viewsets.ModelViewSet):
