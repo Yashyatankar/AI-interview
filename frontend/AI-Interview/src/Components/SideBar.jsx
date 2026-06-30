@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 
-// Robust import handling: Attempts to use your local file, falls back to a dummy hook if not found.
-let useCurrentUser;
-try {
-  useCurrentUser = require("./useCurrentUser.jsx").default;
-} catch (e) {
-  useCurrentUser = () => ({
-    username: "User",
-    email: "user@example.com"
-  });
-}
+
 
 const navItems = [
   { section: "Main" },
@@ -29,6 +20,7 @@ const navItems = [
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
   const user = useCurrentUser();
+  console.log("Current User Data:", user)
 
   useEffect(() => {
     const linkId = "tabler-icons-cdn";
@@ -75,7 +67,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 overflow-y-auto overflow-x-hidden space-y-1">
+      <nav className="flex-1 px-3 py-4 overflow-y-auto overflow-x-hidden space-y-1 custom-scrollbar">
         {navItems.map((item, i) => {
           if (item.section) {
             return (
@@ -121,14 +113,23 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       </nav>
 
       <div className="border-t border-gray-800 p-3 flex-shrink-0 bg-gray-950">
-        <div className="flex items-center gap-3 p-2 rounded-xl">
-          <div className="w-8 h-8 rounded-lg bg-[#5736c6] flex items-center justify-center text-white text-sm font-bold shadow-[0_0_10px_rgba(87,54,198,0.3)]">
+        <div className="flex items-center gap-3 p-2">
+          {/* Avatar */}
+          <div className="w-8 h-8 rounded-lg bg-[#5736c6] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
-          <div className={`flex-1 overflow-hidden transition-opacity ${collapsed ? "opacity-0" : "opacity-100"}`}>
-            <p className="text-xs font-semibold text-white truncate">{user?.username || "Loading..."}</p>
-            <p className="text-[10px] text-gray-500 truncate">{user?.email || "..."}</p>
-          </div>
+
+          {/* Text content - Simplified for debugging */}
+          {!collapsed && (
+            <div className="flex flex-col min-w-0">
+              <p className="text-xs font-semibold text-white truncate">
+                {user?.username}
+              </p>
+              <p className="text-[10px] text-gray-500 truncate">
+                {user?.email}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </aside>
