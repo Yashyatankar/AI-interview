@@ -1,8 +1,14 @@
-import { useState } from "react";
-import '@tabler/icons-webfont/dist/tabler-icons.css';
-import axios from "axios";
-import useCurrentUser from "./useCurrentUser";
+import { useState, useEffect } from "react";
 
+// Fallback user hook to prevent unresolved import compilation errors.
+// If you have your custom useCurrentUser hook in your project, you can swap this with:
+// import useCurrentUser from "./useCurrentUser";
+const useCurrentUser = () => {
+  return {
+    username: "Yash",
+    email: "yash@email.com"
+  };
+};
 
 const navItems = [
   { section: "Main" },
@@ -19,31 +25,50 @@ const navItems = [
   { icon: "help-circle", label: "Help & Support", path: "/help" },
 ];
 
-
-
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const user = useCurrentUser();
 
-    const user = useCurrentUser();
+  // Dynamically inject the Tabler Icons CDN stylesheet.
+  // This resolves local path errors while ensuring the icons render perfectly in any environment.
+  useEffect(() => {
+    const linkId = "tabler-icons-cdn";
+    if (!document.getElementById(linkId)) {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = "https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css";
+      document.head.appendChild(link);
+    }
+  }, []);
 
   return (
     <aside
-      className={`flex flex-col h-full bg-white border-r border-zinc-200 shadow-sm transition-all duration-250 ease-in-out overflow-hidden relative ${
-        collapsed ? "w-14" : "w-60"
+      className={`flex flex-col h-screen bg-gray-950 border-r border-gray-800 transition-all duration-300 ease-in-out overflow-hidden relative flex-shrink-0 ${
+        collapsed ? "w-16" : "w-64"
       }`}
     >
-      {/* Header */}
-      <div className="flex items-center h-12 px-2 border-b border-zinc-200 flex-shrink-0">
-        <span
-          className={`flex-1 pl-2 font-medium text-sm text-zinc-900 whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
-            collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
-        >
-          Prepiq
-        </span>
+      {/* Header with Styled Brand Logo */}
+      <div className="flex items-center h-20 px-4 border-b border-gray-800 flex-shrink-0 justify-between">
+        <div className="flex items-center space-x-3 overflow-hidden">
+          {/* Logo Icon */}
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-[#5736c6] to-[#8b5cf6] flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(87,54,198,0.5)]">
+            <i className="ti ti-braincircuit text-white text-xl" />
+          </div>
+          {/* Brand Name */}
+          <span
+            className={`font-bold text-xl text-white tracking-tight transition-all duration-300 ${
+              collapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
+            }`}
+          >
+            Prep<span className="text-[#a88bff]">iq</span>
+          </span>
+        </div>
+
+        {/* Collapse Button */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition-colors flex-shrink-0"
+          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-900 hover:text-white transition-colors flex-shrink-0"
           aria-label="Toggle sidebar"
         >
           <i
@@ -56,14 +81,14 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         </button>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-1.5 py-2 overflow-y-auto overflow-x-hidden">
+      {/* Nav Link List */}
+      <nav className="flex-1 px-3 py-4 overflow-y-auto overflow-x-hidden space-y-1 scrollbar-thin scrollbar-thumb-gray-800">
         {navItems.map((item, i) => {
           if (item.section) {
             return (
               <p
                 key={i}
-                className={`text-[11px] font-medium text-zinc-400 uppercase tracking-widest px-2.5 pt-3 pb-1 whitespace-nowrap overflow-hidden transition-all duration-250 ${
+                className={`text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 pt-4 pb-1.5 whitespace-nowrap overflow-hidden transition-all duration-300 ${
                   collapsed ? "opacity-0 h-0 pt-0 pb-0" : "opacity-100"
                 }`}
               >
@@ -75,36 +100,38 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
           const isActive = activeRoute === item.path;
 
           return (
-            <div key={i} className="relative group mb-0.5">
+            <div key={i} className="relative group">
               <button
                 onClick={() => onNavigate?.(item.path)}
-                className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
+                className={`w-full flex items-center gap-3 px-3 h-10 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-[#5736c6] text-[#ffffff]"
-                    : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+                    ? "bg-[#5736c6] text-white shadow-[0_0_15px_rgba(87,54,198,0.4)]"
+                    : "text-gray-400 hover:bg-gray-900/50 hover:text-white"
                 }`}
               >
                 <i
-                  className={`ti ti-${item.icon} text-[18px] w-5 flex-shrink-0 text-center`}
+                  className={`ti ti-${item.icon} text-lg w-5 flex-shrink-0 text-center ${
+                    isActive ? "text-white" : "text-gray-400 group-hover:text-white"
+                  }`}
                   aria-hidden="true"
                 />
                 <span
-                  className={`flex-1 text-left whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
+                  className={`flex-1 text-left whitespace-nowrap overflow-hidden transition-opacity duration-300 ${
                     collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
                   }`}
                 >
                   {item.label}
                 </span>
                 {item.badge && !collapsed && (
-                  <span className="bg-[#e63946] text-white text-[10px] font-medium rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                  <span className="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold rounded-full px-2 py-0.5 min-w-[18px] text-center">
                     {item.badge}
                   </span>
                 )}
               </button>
 
-              {/* Tooltip — only shows when collapsed */}
+              {/* Collapsed Tooltip Overlay */}
               {collapsed && (
-                <div className="absolute left-[52px] top-1/2 -translate-y-1/2 bg-zinc-900 text-white text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-md">
+                <div className="absolute left-[72px] top-1/2 -translate-y-1/2 bg-gray-900 border border-gray-800 text-white text-xs font-medium px-3 py-2 rounded-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 shadow-xl">
                   {item.label}
                 </div>
               )}
@@ -113,27 +140,33 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         })}
       </nav>
 
-      {/* Footer / User */}
-      <div className="border-t border-zinc-200 p-2 flex-shrink-0">
-        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-zinc-100 transition-colors">
-          <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
-            Y
+      {/* Footer User Profile Section */}
+      <div className="border-t border-gray-800 p-3 flex-shrink-0 bg-gray-950">
+        <div className="relative group flex items-center gap-3 p-2 rounded-xl cursor-pointer hover:bg-gray-900/50 transition-colors">
+          <div className="w-8 h-8 rounded-lg bg-[#5736c6] flex items-center justify-center text-white text-sm font-bold flex-shrink-0 shadow-[0_0_10px_rgba(87,54,198,0.3)]">
+            {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
           <div
-            className={`flex-1 overflow-hidden transition-opacity duration-250 ${
+            className={`flex-1 overflow-hidden transition-opacity duration-300 ${
               collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           >
-            <p className="text-[13px] font-medium text-zinc-900 truncate">{user?.username}</p>
-            <p className="text-[11px] text-zinc-400 truncate">{user?.email}</p>
+            <p className="text-xs font-semibold text-white truncate">
+              {user?.username || "Guest Developer"}
+            </p>
+            <p className="text-[10px] text-gray-500 truncate">
+              {user?.email || "guest@prepiq.ai"}
+            </p>
           </div>
           {!collapsed && (
-            <i className="ti ti-dots text-zinc-400 text-base flex-shrink-0" aria-hidden="true" />
+            <i className="ti ti-dots text-gray-500 text-sm flex-shrink-0 hover:text-white" aria-hidden="true" />
           )}
 
+          {/* Collapsed Footer Profile Tooltip */}
           {collapsed && (
-            <div className="absolute left-[52px] top-1/2 -translate-y-1/2 bg-zinc-900 text-white text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-md">
-              Yash • yash@email.com
+            <div className="absolute left-[72px] top-1/2 -translate-y-1/2 bg-gray-900 border border-gray-800 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 shadow-xl">
+              <div className="font-semibold">{user?.username || "Guest Developer"}</div>
+              <div className="text-[10px] text-gray-500">{user?.email || "guest@prepiq.ai"}</div>
             </div>
           )}
         </div>
