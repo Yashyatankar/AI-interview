@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-
+import { use, useState } from "react";
+import '@tabler/icons-webfont/dist/tabler-icons.css';
+import axios from "axios";
+import useCurrentUser from "./useCurrentUser";
 
 
 const navItems = [
@@ -17,45 +19,32 @@ const navItems = [
   { icon: "help-circle", label: "Help & Support", path: "/help" },
 ];
 
+
+
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const user = useCurrentUser();
-  console.log("Current User Data:", user)
 
-  useEffect(() => {
-    const linkId = "tabler-icons-cdn";
-    if (!document.getElementById(linkId)) {
-      const link = document.createElement("link");
-      link.id = linkId;
-      link.rel = "stylesheet";
-      link.href = "https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css";
-      document.head.appendChild(link);
-    }
-  }, []);
+    const user = useCurrentUser();
 
   return (
     <aside
-      className={`flex flex-col h-screen bg-gray-950 border-r border-gray-800 transition-all duration-300 ease-in-out overflow-hidden relative flex-shrink-0 ${
-        collapsed ? "w-16" : "w-64"
-      }`}
+      className={`flex flex-col h-screen bg-gray-800 shadow-sm transition-all duration-250 ease-in-out overflow-hidden relative flex-shrink-0 ${
+    collapsed ? "w-14" : "w-60"
+  }`}
     >
-      <div className="flex items-center h-20 px-4 border-b border-gray-800 flex-shrink-0 justify-between">
-        <div className="flex items-center space-x-3 overflow-hidden">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-[#5736c6] to-[#8b5cf6] flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(87,54,198,0.5)]">
-            <i className="ti ti-braincircuit text-white text-xl" />
-          </div>
-          <span
-            className={`font-bold text-xl text-white tracking-tight transition-all duration-300 ${
-              collapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
-            }`}
-          >
-            Prep<span className="text-[#a88bff]">iq</span>
-          </span>
-        </div>
-
+      {/* Header */}
+      <div className="flex items-center h-12 px-2 flex-shrink-0">
+        <span
+          className={`flex-1 pl-2 font-medium text-sm text-zinc-900 whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
+            collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          Prepiq
+        </span>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-900 hover:text-white transition-colors flex-shrink-0"
+          className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition-colors flex-shrink-0"
+          aria-label="Toggle sidebar"
         >
           <i
             className={`ti ${
@@ -67,13 +56,14 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 overflow-y-auto overflow-x-hidden space-y-1 custom-scrollbar">
+      {/* Nav */}
+      <nav className="flex-1 px-1.5 py-2 overflow-y-auto overflow-x-hidden">
         {navItems.map((item, i) => {
           if (item.section) {
             return (
               <p
                 key={i}
-                className={`text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 pt-4 pb-1.5 whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                className={`text-[11px] font-medium text-zinc-400 uppercase tracking-widest px-2.5 pt-3 pb-1 whitespace-nowrap overflow-hidden transition-all duration-250 ${
                   collapsed ? "opacity-0 h-0 pt-0 pb-0" : "opacity-100"
                 }`}
               >
@@ -85,49 +75,65 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
           const isActive = activeRoute === item.path;
 
           return (
-            <div key={i} className="relative group">
+            <div key={i} className="relative group mb-0.5">
               <button
                 onClick={() => onNavigate?.(item.path)}
-                className={`w-full flex items-center gap-3 px-3 h-10 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
-                    ? "bg-[#5736c6] text-white shadow-[0_0_15px_rgba(87,54,198,0.4)]"
-                    : "text-gray-400 hover:bg-gray-900/50 hover:text-white"
+                    ? "bg-[#5736c6] text-[#ffffff]"
+                    : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
                 }`}
               >
                 <i
-                  className={`ti ti-${item.icon} text-lg w-5 flex-shrink-0 text-center ${
-                    isActive ? "text-white" : "text-gray-400 group-hover:text-white"
-                  }`}
+                  className={`ti ti-${item.icon} text-[18px] w-5 flex-shrink-0 text-center`}
+                  aria-hidden="true"
                 />
                 <span
-                  className={`flex-1 text-left whitespace-nowrap overflow-hidden transition-opacity duration-300 ${
+                  className={`flex-1 text-left whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
                     collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
                   }`}
                 >
                   {item.label}
                 </span>
+                {item.badge && !collapsed && (
+                  <span className="bg-[#e63946] text-white text-[10px] font-medium rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                    {item.badge}
+                  </span>
+                )}
               </button>
+
+              {/* Tooltip — only shows when collapsed */}
+              {collapsed && (
+                <div className="absolute left-[52px] top-1/2 -translate-y-1/2 bg-zinc-900 text-white text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-md">
+                  {item.label}
+                </div>
+              )}
             </div>
           );
         })}
       </nav>
 
-      <div className="border-t border-gray-800 p-3 flex-shrink-0 bg-gray-950">
-        <div className="flex items-center gap-3 p-2">
-          {/* Avatar */}
-          <div className="w-8 h-8 rounded-lg bg-[#5736c6] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+      {/* Footer / User */}
+      <div className="p-2 flex-shrink-0">
+        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6842e6] transition-colors">
+          <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
-
-          {/* Text content - Simplified for debugging */}
+          <div
+            className={`flex-1 overflow-hidden transition-opacity duration-250 ${
+              collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
+            <p className="text-[13px] font-medium text-white  truncate">{user?.username}</p>
+            <p className="text-[11px] text-zinc-400 truncate">{user?.email}</p>
+          </div>
           {!collapsed && (
-            <div className="flex flex-col min-w-0">
-              <p className="text-xs font-semibold text-white truncate">
-                {user?.username}
-              </p>
-              <p className="text-[10px] text-gray-500 truncate">
-                {user?.email}
-              </p>
+            <i className="ti ti-dots text-zinc-400 text-base flex-shrink-0" aria-hidden="true" />
+          )}
+
+          {collapsed && (
+            <div className="absolute left-[52px] top-1/2 -translate-y-1/2 bg-zinc-900 text-white text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-md">
+              {user?.username}
             </div>
           )}
         </div>
