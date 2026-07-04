@@ -2,13 +2,13 @@ import { use, useState } from "react";
 import '@tabler/icons-webfont/dist/tabler-icons.css';
 import axios from "axios";
 import useCurrentUser from "./useCurrentUser";
-
+import { useNavigate } from 'react-router-dom';
 
 const navItems = [
   { section: "Main" },
   { icon: "layout-dashboard", label: "Dashboard", path: "/dashboard" },
-  { icon: "microphone", label: "Mock Interviews", path: "/interviews", badge: 3 },
-  { icon: "file-text", label: "My Sessions", path: "/sessions" },
+  { icon: "microphone", label: "Mock Interviews", path: "/interviews"},
+  { icon: "file-text", label: "My Sessions", path: "/session" },
   { icon: "chart-bar", label: "Analytics", path: "/analytics" },
   { section: "Prepare" },
   { icon: "brain", label: "Question Bank", path: "/questions" },
@@ -22,6 +22,8 @@ const navItems = [
 
 
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
+  
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
     const user = useCurrentUser();

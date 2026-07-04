@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Radar, 
   RadarChart, 
@@ -231,6 +232,9 @@ const HistoryTable = () => (
 );
 
 export default function App() {
+
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-black font-sans text-gray-200 flex">
       <Sidebar />
@@ -241,7 +245,9 @@ export default function App() {
             <h1 className="text-2xl font-bold text-white tracking-tight">Welcome back, Developer</h1>
             <p className="text-gray-400 text-sm mt-1">Track your AI interview progress and performance metrics.</p>
           </div>
-          <button className="flex items-center space-x-2 bg-[#5736c6] hover:bg-[#6842e6] text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-[0_0_15px_rgba(87,54,198,0.4)]">
+          <button 
+          onClick={() => navigate('/session')}
+          className="flex items-center space-x-2 bg-[#5736c6] hover:bg-[#6842e6] text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-[0_0_15px_rgba(87,54,198,0.4)]">
             <Play size={18} fill="currentColor" />
             <span>Start Interview</span>
           </button>
