@@ -81,7 +81,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
                 onClick={() => onNavigate?.(item.path)}
                 className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
-                    ? "bg-[#5736c6] text-[#ffffff]"
+                    ? "bg-blue-600 text-[#ffffff]"
                     : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
                 }`}
               >
@@ -116,7 +116,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
 
       {/* Footer / User */}
       <div className="p-2 flex-shrink-0">
-        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6842e6] transition-colors">
+        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors">
           <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
