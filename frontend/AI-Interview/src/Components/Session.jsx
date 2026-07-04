@@ -1,29 +1,39 @@
 import React from 'react'
 import Sidebar from './SideBar'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
 const Inputvalues = () => {
-  return (
-    <div className="p-4 border-t border-gray-800 gap-4 flex items-center justify-center bg-gray-900 relative">
-        <input
-            type="text"
-            placeholder="Enter your Answer here..."
-            className="w-128 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-        
-        <select className="mt-2 w-32 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option value="option1" className='text-black'>Option 1</option>   
-            <option value="option2" className='text-black'>Option 2</option>
-            <option value="option3" className='text-black'>Option 3</option>
-        </select>  
-        
-        <button className="mt-2 w-24 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors right-2 absolute">
-            Submit
-        </button>
 
-      
+    useEffect(() => {
 
-    </div>
-  )
+        
+
+
+    }, [])
+
+    return (
+        <div className="p-4 border-t border-gray-800 gap-4 flex items-center justify-center bg-gray-900 relative">
+            <input
+                type="text"
+                placeholder="Enter your Answer here..."
+                className="w-128 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            
+            <select className="mt-2 w-32 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="option1" className='text-black'>Option 1</option>   
+                <option value="option2" className='text-black'>Option 2</option>
+                <option value="option3" className='text-black'>Option 3</option>
+            </select>  
+            
+            <button className="mt-2 w-24 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors right-2 absolute">
+                Submit
+            </button>
+
+        
+
+        </div>
+    )
 }
 
 const Session = () => {
