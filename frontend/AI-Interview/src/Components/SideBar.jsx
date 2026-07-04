@@ -22,7 +22,6 @@ const navItems = [
 
 
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
-  
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
