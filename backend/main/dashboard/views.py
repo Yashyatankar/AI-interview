@@ -92,7 +92,7 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
                     "error": "Failed to generate interview questions.",
                     "details": str(e)
                 },
-                status=status.HTTP_429_TOO_MANY_REQUESTS,
+                status=status.HTTP_502_BAD_GATEWAY,
             )
 
     @action(detail=True, methods=['post'], url_path='submit-answer')

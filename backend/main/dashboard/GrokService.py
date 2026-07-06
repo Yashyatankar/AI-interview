@@ -18,7 +18,7 @@ def get_client():
         )
     return _client
 
-MODEL = 'grok-2-latest'
+MODEL = 'grok-beta'
 
 
 def _clean_json(text: str) -> str:
