@@ -36,38 +36,38 @@ def generate_questions(session) -> list[dict]:
     Ask Gemini to generate `session.total_questions` interview questions.
     Returns a list of dicts matching Question model fields.
     """
-    techs = ', '.join(session.programming)
+    print("Calling Gemini...")
     prompt = f"""
-You are a senior technical interviewer. Generate exactly {session.total_questions} interview questions 
-for the following role:
+    You are a senior technical interviewer. Generate exactly {session.total_questions} interview questions 
+    for the following role:
 
-- Job Title: {session.job_field}
-- Stack: {session.programming}
+    - Job Title: {session.job_field}
+    - Stack: {session.programming}
 
-- Difficulty Level: {session.difficulty}
+    - Difficulty Level: {session.difficulty}
 
--FrameWork{session.frameworks}
+    -FrameWork{session.frameworks}
 
-Return ONLY a valid JSON array (no markdown, no explanation) with exactly {session.total_questions} objects.
-Each object must have these exact keys:
-{{
-  "order": <integer 1-{session.total_questions}>,
-  "text": "<the interview question>",
-  "topic": "<one of: core_concepts | practical | system_design | best_practices | debugging | behavioral>",
-  "difficulty": "<one of: easy | medium | hard>",
-  "expected_keywords": ["<keyword1>", "<keyword2>", ...]
-}}
+    Return ONLY a valid JSON array (no markdown, no explanation) with exactly {session.total_questions} objects.
+    Each object must have these exact keys:
+    {{
+    "order": <integer 1-{session.total_questions}>,
+    "text": "<the interview question>",
+    "topic": "<one of: core_concepts | practical | system_design | best_practices | debugging | behavioral>",
+    "difficulty": "<one of: easy | medium | hard>",
+    "expected_keywords": ["<keyword1>", "<keyword2>", ...]
+    }}
 
-Mix topics naturally. For {session.difficulty} level, calibrate the depth accordingly.
-Return ONLY the JSON array. No preamble. No markdown.
-"""
+    Mix topics naturally. For {session.difficulty} level, calibrate the depth accordingly.
+    Return ONLY the JSON array. No preamble. No markdown.
+    """
     client = get_client()
     response = client.models.generate_content(
         model=MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
             temperature=0.7,
-            max_output_tokens=4096,
+            max_output_tokens=2048,
         )
     )
     raw = _clean_json(response.text)
@@ -82,33 +82,33 @@ def evaluate_answer(question, answer_text: str) -> dict:
     """
     keywords = ', '.join(question.expected_keywords) if question.expected_keywords else 'N/A'
     prompt = f"""
-You are a strict but fair technical interviewer. Evaluate the following interview answer.
+    You are a strict but fair technical interviewer. Evaluate the following interview answer.
 
-Question: {question.text}
-Topic: {question.topic}
-Difficulty: {question.difficulty}
-Expected Keywords/Concepts: {keywords}
+    Question: {question.text}
+    Topic: {question.topic}
+    Difficulty: {question.difficulty}
+    Expected Keywords/Concepts: {keywords}
 
-Candidate's Answer:
-{answer_text}
+    Candidate's Answer:
+    {answer_text}
 
-Score the answer from 0 to 10 based on:
-- Technical accuracy (40%)
-- Depth and completeness (30%)  
-- Clarity of explanation (20%)
-- Use of relevant concepts (10%)
+    Score the answer from 0 to 10 based on:
+    - Technical accuracy (40%)
+    - Depth and completeness (30%)  
+    - Clarity of explanation (20%)
+    - Use of relevant concepts (10%)
 
-Return ONLY a valid JSON object (no markdown, no explanation):
-{{
-  "score": <float 0.0-10.0>,
-  "feedback": "<2-3 sentence overall assessment>",
-  "strengths": ["<strength 1>", "<strength 2>"],
-  "improvements": ["<improvement 1>", "<improvement 2>"]
-}}
+    Return ONLY a valid JSON object (no markdown, no explanation):
+    {{
+    "score": <float 0.0-10.0>,
+    "feedback": "<2-3 sentence overall assessment>",
+    "strengths": ["<strength 1>", "<strength 2>"],
+    "improvements": ["<improvement 1>", "<improvement 2>"]
+    }}
 
-Be honest. A blank or irrelevant answer should score 0. A perfect answer scores 10.
-Return ONLY the JSON object. No preamble. No markdown.
-"""
+    Be honest. A blank or irrelevant answer should score 0. A perfect answer scores 10.
+    Return ONLY the JSON object. No preamble. No markdown.
+    """
     client = get_client()
     response = client.models.generate_content(
         model=MODEL,

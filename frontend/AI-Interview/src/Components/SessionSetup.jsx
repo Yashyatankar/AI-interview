@@ -36,6 +36,7 @@ const SessionSetup = () => {
         difficulty,
         total_questions: totalQuestions,
       });
+
       navigate(`/session/${session.id}`);
     } catch (err) {
       setError(err.frameworks || err.error || 'Failed to create session.');

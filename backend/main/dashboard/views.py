@@ -1,5 +1,7 @@
 from django.db import transaction
 from django.utils import timezone
+from httpcore import request
+from requests import session
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -44,23 +46,20 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         validated_data = serializer.validated_data
 
+        session = InterviewSession.objects.create(
+            user=request.user,
+            programming=validated_data['programming'],
+            frameworks=validated_data['frameworks'],
+            job_field=validated_data['job_field'],
+            difficulty=validated_data['difficulty'],
+            total_questions=validated_data['total_questions'],
+            status='pending',
+        )
+
         try:
+            ai_questions_data = generate_questions(session)
+
             with transaction.atomic():
-                # 1. Instantiate the session object (don't commit yet to adapt schema gaps if needed)
-                # Mapping fields from CreateSessionSerializer to standard Model structure
-                session = InterviewSession.objects.create(
-                    programming=validated_data['programming'],
-                    frameworks=validated_data['frameworks'],
-                    job_field=validated_data['job_field'],
-                    difficulty=validated_data['difficulty'],
-                    total_questions=validated_data['total_questions'],
-                    status='ongoing' # Assuming 'ongoing' or similar default state string
-                )
-
-                # 2. Call Gemini service to compile JSON questions
-                ai_questions_data = generate_questions(session)
-
-                # 3. Bulk save questions to database
                 questions_to_create = [
                     InterviewQuestion(
                         session=session,
@@ -72,19 +71,28 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
                     )
                     for q_data in ai_questions_data
                 ]
+
                 InterviewQuestion.objects.bulk_create(questions_to_create)
 
-            # Re-serialize full created instance with nested structure for Frontend convenience
+            session.status = "active"
+            session.save()
+
             response_serializer = InterviewSessionSerializer(session)
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            # Captures potential JSON decoding errors or Gemini service exceptions gracefully
             traceback.print_exc()
 
+            # Keep the session, but indicate it couldn't be initialized
+            session.status = "pending"   # or "failed" if you add that choice
+            session.save()
+
             return Response(
-                {"error": "Failed to generate interview questions. Please try again.", "details": str(e)},
-                status=status.HTTP_502_BAD_GATEWAY
+                {
+                    "error": "Failed to generate interview questions.",
+                    "details": str(e)
+                },
+                status=status.HTTP_429_TOO_MANY_REQUESTS,
             )
 
     @action(detail=True, methods=['post'], url_path='submit-answer')
