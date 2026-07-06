@@ -53,7 +53,7 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
             job_field=validated_data['job_field'],
             difficulty=validated_data['difficulty'],
             total_questions=validated_data['total_questions'],
-            status='pending',
+            status='active'  # Set to active immediately; will revert to pending if generation fails,
         )
 
         try:
