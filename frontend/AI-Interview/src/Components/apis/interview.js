@@ -1,5 +1,5 @@
 const BASE = '/api/sessions';
-const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem('access_token')}` });
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem('access')}` });
 
 export const createSession = async ({ programming, frameworks, job_field, difficulty, total_questions }) => {
   const res = await fetch(`${BASE}/`, {
