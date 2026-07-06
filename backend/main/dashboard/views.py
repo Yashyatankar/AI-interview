@@ -4,6 +4,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, NotFound
+import traceback
+from rest_framework.permissions import IsAuthenticated
+
 
 from .models import InterviewSession, InterviewQuestion, Answer
 from .serializers import (
@@ -18,11 +21,14 @@ from .serializers import (
 from .GeminService import generate_questions, evaluate_answer
 
 
+
+
 class InterviewSessionViewSet(viewsets.ModelViewSet):
     """
     ViewSet for handling AI Technical Interview Sessions.
     Provides list, retrieve, creation (via generate), and submission endpoints.
     """
+    permission_classes = [IsAuthenticated]
     queryset = InterviewSession.objects.all().order_by('-created_at')
     
     def get_serializer_class(self):
@@ -74,6 +80,8 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             # Captures potential JSON decoding errors or Gemini service exceptions gracefully
+            traceback.print_exc()
+
             return Response(
                 {"error": "Failed to generate interview questions. Please try again.", "details": str(e)},
                 status=status.HTTP_502_BAD_GATEWAY
