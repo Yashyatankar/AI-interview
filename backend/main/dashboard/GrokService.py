@@ -13,7 +13,7 @@ def get_client():
     global _client
     if _client is None:
         _client = OpenAI(
-            api_key=settings.GROK_API_KEY,
+            api_key=settings.GROQ_API_KEY,
             base_url="https://api.x.ai/v1",
         )
     return _client
