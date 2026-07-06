@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createSession } from '../api/interview';
+import { createSession } from '../apis/interview';
 import { FRAMEWORKS_BY_LANGUAGE } from '../constants';
 
 const SessionSetup = () => {
