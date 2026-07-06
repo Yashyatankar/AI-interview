@@ -51,18 +51,8 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
                     status='ongoing' # Assuming 'ongoing' or similar default state string
                 )
 
-                # Mocking a dynamic session payload structure expected by your Gemini script
-                # If your gemini script expects fields like session.job_title, we build a proxy object or mock it:
-                class SessionContextProxy:
-                    total_questions = session.total_questions
-                    job_title = f"{session.get_job_field_display()} Developer"
-                    stack = session.get_programming_display()
-                    technologies = session.frameworks
-                    difficulty = session.difficulty
-                    job_description = f"Technical assessment focusing on {', '.join(session.frameworks)}."
-
                 # 2. Call Gemini service to compile JSON questions
-                ai_questions_data = generate_questions(SessionContextProxy())
+                ai_questions_data = generate_questions(session)
 
                 # 3. Bulk save questions to database
                 questions_to_create = [
