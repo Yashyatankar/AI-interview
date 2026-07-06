@@ -20,7 +20,7 @@ from .serializers import (
     InterviewQuestionSerializer
 )
 # Assuming your AI logic file is named gemini_service.py
-from .GeminService import generate_questions, evaluate_answer
+from .GrokService import generate_questions, evaluate_answer
 
 
 
