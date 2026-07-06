@@ -1,6 +1,6 @@
 """
-Grok AI service — question generation + answer evaluation.
-Uses xAI's OpenAI-compatible API with grok-2-latest.
+Groq AI service — question generation + answer evaluation.
+Uses Groq's OpenAI-compatible API (fast inference, open-source models).
 """
 import json
 import re
@@ -14,15 +14,15 @@ def get_client():
     if _client is None:
         _client = OpenAI(
             api_key=settings.GROQ_API_KEY,
-            base_url="https://api.x.ai/v1",
+            base_url="https://api.groq.com/openai/v1",
         )
     return _client
 
-MODEL = 'grok-beta'
+MODEL = 'llama-3.3-70b-versatile'
 
 
 def _clean_json(text: str) -> str:
-    """Strip markdown code fences if Grok wraps JSON in them."""
+    """Strip markdown code fences if the model wraps JSON in them."""
     text = text.strip()
     text = re.sub(r'^```(?:json)?\s*', '', text)
     text = re.sub(r'\s*```$', '', text)
@@ -30,10 +30,6 @@ def _clean_json(text: str) -> str:
 
 
 def generate_questions(session) -> list[dict]:
-    """
-    Ask Grok to generate `session.total_questions` interview questions.
-    Returns a list of dicts matching Question model fields.
-    """
     prompt = f"""
 You are a senior technical interviewer. Generate exactly {session.total_questions} interview questions 
 for the following role:
@@ -69,10 +65,6 @@ Return ONLY the JSON array. No preamble. No markdown.
 
 
 def evaluate_answer(question, answer_text: str) -> dict:
-    """
-    Ask Grok to evaluate a candidate's answer.
-    Returns dict with: score, feedback, strengths, improvements.
-    """
     keywords = ', '.join(question.expected_keywords) if question.expected_keywords else 'N/A'
     prompt = f"""
 You are a strict but fair technical interviewer. Evaluate the following interview answer.
