@@ -7,6 +7,7 @@ import re
 from google import genai
 from google.genai import types
 from django.conf import settings
+from requests import session
 
 _client = None
 
