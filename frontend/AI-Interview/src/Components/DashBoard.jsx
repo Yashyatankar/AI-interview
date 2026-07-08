@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import HistorySection from './DashBoard/HistorySection';
 import { 
   Radar, 
   RadarChart, 
@@ -287,6 +288,7 @@ export default function App() {
           <ChartsSection />
           
           <HistoryTable />
+          <HistorySection/>
         </div>
       </main>
     </div>
