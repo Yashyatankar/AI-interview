@@ -44,7 +44,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         </span>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition-colors flex-shrink-0"
+          className="w-9 h-9 flex items-center justify-center rounded-lg text-zinc-200 hover:bg-zinc-100 hover:text-zinc-900 transition-colors flex-shrink-0"
           aria-label="Toggle sidebar"
         >
           <i

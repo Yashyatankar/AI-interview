@@ -155,6 +155,7 @@ const ChartsSection = () => (
 );
 
 const HistoryTable = () => (
+  
   <Card className="overflow-hidden">
     <div className="p-6 border-b border-gray-800 flex items-center justify-between">
       <div>
