@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { getSession, submitAnswer } from './apis/interview';
+import SessionEndScreen from './SessionEndScreen';
+
 
 const InputValues = ({ value, onChange, onSubmit, loading }) => (
   <div className="p-4 border-t border-gray-800 bg-gray-950">
@@ -139,6 +141,8 @@ const Session = () => {
           <InputValues value={answer} onChange={setAnswer} onSubmit={handleSubmit} loading={loading} />
         )}
       </div>
+
+      <SessionEndScreen results={session} />
     </section>
   );
 };
