@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 const navItems = [
   { section: "Main" },
   { icon: "layout-dashboard", label: "Dashboard", path: "/dashboard" },
-  { icon: "microphone", label: "Mock Interviews", path: "/interviews"},
-  { icon: "file-text", label: "My Sessions", path: "/session" },
+  { icon: "microphone", label: "Mock Interviews", path: "/session-setup"},
+  { icon: "file-text", label: "My Sessions", path: "/session-History"},
   { icon: "chart-bar", label: "Analytics", path: "/analytics" },
   { section: "Prepare" },
   { icon: "brain", label: "Question Bank", path: "/questions" },
@@ -36,11 +36,11 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       {/* Header */}
       <div className="flex items-center h-12 px-2 flex-shrink-0">
         <span
-          className={`flex-1 pl-2 font-medium text-sm text-zinc-900 whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
+          className={`flex-1 pl-2 font-medium text-lg text-[#F5F5F0] whitespace-nowrap overflow-hidden transition-opacity duration-250 ${
             collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
-          Prepiq
+          PRE<span className="font-bold text-[#6366F1]">PIQ</span>
         </span>
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -81,8 +81,8 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
                 onClick={() => onNavigate?.(item.path)}
                 className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
-                    ? "bg-blue-600 text-[#ffffff]"
-                    : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
+                    ? "bg-[#6366F1] text-[#ffffff]"
+                    : "text-zinc-500 hover:bg-[#F5F5F0] hover:text-zinc-900"
                 }`}
               >
                 <i
@@ -116,7 +116,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
 
       {/* Footer / User */}
       <div className="p-2 flex-shrink-0">
-        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors">
+        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6366F1]  transition-colors">
           <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>

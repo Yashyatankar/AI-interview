@@ -6,9 +6,12 @@ export default function HistorySection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
     const fetchSessions = async () => {
       try {
-        const res = await axios.get("/api/sessions/"); // adjust to your endpoint
+        const res = await axios.get("/api/sessions/", {
+          headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
+        });
         setSessions(res.data);
       } catch (err) {
         console.error("Failed to fetch sessions:", err);
@@ -73,13 +76,13 @@ export default function HistorySection() {
                     {session.job_field}
                   </td>
                   <td className="px-6 py-4 text-gray-400">
-                    {session.stack}
+                    {session.programming}
                   </td>
                   <td className="px-6 py-4 text-gray-400">
                     {formatDate(session.created_at)}
                   </td>
                   <td className="px-6 py-4 text-gray-400">
-                    {session.questions_count ?? session.questions?.length}
+                    {session.total_questions ?? session.session?.length}
                   </td>
                   <td className={`px-6 py-4 font-semibold ${scoreColor(session.overall_score)}`}>
                     {session.overall_score?.toFixed(1) ?? "—"}/10

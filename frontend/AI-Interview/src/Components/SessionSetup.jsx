@@ -46,8 +46,8 @@ const SessionSetup = () => {
   };
 
   return (
-    <section className="bg-black text-white min-h-screen w-full flex items-center justify-center p-6 font-sans">
-      <div className="w-full max-w-lg bg-gray-900 border border-gray-800 rounded-2xl p-8 space-y-6">
+    <section className="bg-[#0F1420] text-white min-h-screen w-full flex items-center justify-center p-6 font-sans">
+      <div className="w-full max-w-lg bg-[#121827] border border-gray-800 rounded-2xl p-8 space-y-6">
         <h1 className="text-2xl font-bold">Configure Your Interview</h1>
 
         <div>
@@ -72,8 +72,8 @@ const SessionSetup = () => {
                 onClick={() => toggleFramework(fw)}
                 className={`px-3 py-2 rounded-lg text-sm border ${
                   frameworks.includes(fw)
-                    ? 'bg-blue-600 border-blue-500'
-                    : 'bg-gray-800 border-gray-700 text-gray-300'
+                    ? 'bg-[#6366F1] border-blue-500'
+                    : 'bg-[#121827] border-gray-700 text-gray-300'
                 }`}
               >
                 {fw}
@@ -124,7 +124,7 @@ const SessionSetup = () => {
         <button
           onClick={handleStart}
           disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-medium disabled:opacity-50"
+          className="w-full bg-[#6366F1] hover:bg-[#4F46E5] py-3 rounded-xl font-medium disabled:opacity-50"
         >
           {loading ? 'Generating Questions...' : 'Start Interview'}
         </button>

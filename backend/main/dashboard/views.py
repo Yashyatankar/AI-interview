@@ -30,9 +30,15 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
     ViewSet for handling AI Technical Interview Sessions.
     Provides list, retrieve, creation (via generate), and submission endpoints.
     """
+    """
+    ViewSet for handling AI Technical Interview Sessions.
+    Provides list, retrieve, creation (via generate), and submission endpoints.
+    """
     permission_classes = [IsAuthenticated]
-    queryset = InterviewSession.objects.all().order_by('-created_at')
-    
+
+    def get_queryset(self):
+        return InterviewSession.objects.filter(user=self.request.user).order_by('-created_at')
+
     def get_serializer_class(self):
         if self.action == 'list':
             return InterviewSessionListSerializer
@@ -41,7 +47,6 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
         return InterviewSessionSerializer
 
     def create(self, request, *args, **kwargs):
-
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         validated_data = serializer.validated_data
@@ -53,9 +58,8 @@ class InterviewSessionViewSet(viewsets.ModelViewSet):
             job_field=validated_data['job_field'],
             difficulty=validated_data['difficulty'],
             total_questions=validated_data['total_questions'],
-            status='active'  # Set to active immediately; will revert to pending if generation fails,
+            status='active'
         )
-
         try:
             ai_questions_data = generate_questions(session)
 
