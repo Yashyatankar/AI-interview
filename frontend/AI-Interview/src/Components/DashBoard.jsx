@@ -5,15 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 
 const Header = () => {
-
-  
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="flex items-center justify-between px-6 py-4 bg-[#111827] border-b border-gray-800">
         <h1 className="text-2xl font-semibold text-gray-100">Dashboard</h1>
         <div className="flex items-center gap-4">
-          <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition-colors">
+          <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition-colors" onClick={() => navigate("/session-setup")}>
             New Session
           </button>
         </div>

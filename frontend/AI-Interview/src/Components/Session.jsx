@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from './SideBar';
 import { getSession, submitAnswer } from './apis/interview';
-import SessionEndScreen from './SessionEndScreen';
+import { useNavigate } from "react-router-dom";
 
 
 const InputValues = ({ value, onChange, onSubmit, loading }) => (
@@ -84,7 +84,7 @@ const Session = () => {
       setLoading(false);
     }
   };
-
+  const navigate = useNavigate();
   return (
     <section className="bg-black text-white h-screen w-full flex overflow-hidden font-sans">
       <div className="hidden md:block">
@@ -92,8 +92,15 @@ const Session = () => {
       </div>
 
       <div className="flex-1 flex flex-col min-w-0 bg-gray-950">
-        <header className="h-16 flex items-center px-6 border-b border-gray-800 bg-gray-950/50 backdrop-blur-sm">
+        <header className="h-16 flex items-center justify-between px-6 border-b border-gray-800 bg-gray-950/50 backdrop-blur-sm">
           <h2 className="text-lg font-semibold text-gray-200">Interview Session</h2>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition-colors"
+          >
+            Back to Dashboard
+          </button>
+          
         </header>
 
         <main className="flex-1 overflow-y-auto p-6 scroll-smooth">
@@ -142,7 +149,7 @@ const Session = () => {
         )}
       </div>
 
-      <SessionEndScreen results={session} />
+      
     </section>
   );
 };
