@@ -1,9 +1,37 @@
 // HistorySection.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+
+
+
 export default function HistorySection() {
+
+
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [ShowMore, setShowMore] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+
+  const numberOfSessionsToShow = 
+  {
+    webkitlineclamp : 5,
+    webkitboxorient : "vertical",
+    overflow : "hidden",
+    display : "-webkit-box",
+
+  }
+  
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+
+    if (tableRef.current) {
+      console.log("Scroll Height:", tableRef.current.scrollHeight);
+      console.log("Client Height:", tableRef.current.clientHeight);
+      setShowButton(tableRef.current.scrollHeight > tableRef.current.clientHeight);
+    }
+  }, []);
 
   useEffect(() => {
     
@@ -42,7 +70,7 @@ export default function HistorySection() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left">
+        <table className="w-full text-sm text-left" ref={tableRef} style={ShowMore ? {} : numberOfSessionsToShow}>
           <thead>
             <tr className="bg-[#0F1420] text-gray-400 uppercase text-xs tracking-wider">
               <th className="px-6 py-3">Job Field</th>
@@ -101,6 +129,14 @@ export default function HistorySection() {
           </tbody>
         </table>
       </div>
+
+
+      <div className="px-6 py-4 border-t border-gray-800 flex justify-center">
+        <button className="text-indigo-400 hover:text-indigo-300 font-medium" onClick={() => setShowMore(!ShowMore)}>
+          {ShowMore ? "Show Less" : "Show More"}
+        </button>
+      </div>
+    
     </div>
   );
 }
