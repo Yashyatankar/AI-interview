@@ -22,7 +22,7 @@ api.interceptors.response.use(
 
       try {
         const refresh = localStorage.getItem('refresh');
-        const { data } = await axios.post('localhost:5173/accounts/token/refresh/', { refresh });
+        const { data } = await axios.post('http://127.0.0.1:8000/accounts/token/refresh/', { refresh });
         
         localStorage.setItem('access', data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
