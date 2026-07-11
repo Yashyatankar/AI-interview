@@ -10,7 +10,7 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
+      
 // Handle expired access tokens
 api.interceptors.response.use(
   (response) => response,
@@ -19,13 +19,11 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
+      
       try {
         const refresh = localStorage.getItem('refresh');
-        const { data } = await axios.post('/accounts/token/refresh/', { refresh });
-        if (!data.access) {
-          throw new Error('No access token returned');
-        }
+        const { data } = await axios.post('localhost:5173/accounts/token/refresh/', { refresh });
+        
         localStorage.setItem('access', data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
 

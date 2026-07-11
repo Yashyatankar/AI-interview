@@ -41,7 +41,7 @@ export default function HistorySection() {
       month: "short",
       year: "numeric",
     });
-
+    
   const scoreColor = (score) => {
     if (score >= 8) return "text-emerald-400";
     if (score >= 5) return "text-amber-400";

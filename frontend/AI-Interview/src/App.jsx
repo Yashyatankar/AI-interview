@@ -10,7 +10,9 @@ import SessionHistory from './Components/SessionHistory';
 const { GoogleCallback, GithubCallback } = OAuthCallback;
 
 export default function App() {
+
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/history" element={<SessionHistory />} />
