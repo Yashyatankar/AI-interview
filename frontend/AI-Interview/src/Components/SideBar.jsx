@@ -38,7 +38,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       console.error("Logout error:", error);
     } finally {
       setShowMenu(false);
-      navigate("/login"); 
+      navigate("/"); 
     }
   };
 
