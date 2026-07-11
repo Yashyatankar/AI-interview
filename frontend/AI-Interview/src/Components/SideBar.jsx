@@ -24,8 +24,8 @@ const navItems = [
 const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
-
-    const user = useCurrentUser();
+  const [showMenu, setShowMenu] = useState(false);
+  const user = useCurrentUser();
 
   return (
     <aside
@@ -74,6 +74,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
           }
 
           const isActive = activeRoute === item.path;
+          
 
           return (
             <div key={i} className="relative group mb-0.5">
@@ -115,8 +116,10 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       </nav>
 
       {/* Footer / User */}
-      <div className="p-2 flex-shrink-0">
-        <div className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6366F1]  transition-colors">
+      <div  className="p-2 flex-shrink-0">
+        <div 
+        onClick={() => setShowMenu(!showMenu)}
+        className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6366F1]  transition-colors">
           <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
@@ -139,6 +142,21 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
           )}
         </div>
       </div>
+
+      {showMenu && (
+        <div className="absolute bottom-13 left-2 mb-2 w-[calc(100%-1rem)] bg-white rounded-lg shadow-lg border border-zinc-200 py-1 z-50">
+          <button
+            onClick={() => {
+              // your logout logic here
+              setShowMenu(false);
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
+          >
+            <i className="ti ti-logout text-base" aria-hidden="true" />
+            Logout
+          </button>
+        </div>
+      )}
     </aside>
   );
 };
