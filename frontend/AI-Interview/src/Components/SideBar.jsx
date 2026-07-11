@@ -94,7 +94,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
           return (
             <div key={i} className="relative group mb-0.5">
               <button
-                onClick={() => onNavigate?.(item.path)}
+                onClick={() => navigate?.(item.path)}
                 className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
                     ? "bg-[#6366F1] text-[#ffffff]"
