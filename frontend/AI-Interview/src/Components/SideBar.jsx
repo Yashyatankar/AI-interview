@@ -159,7 +159,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       </div>
 
       {showMenu && (
-        <div className="absolute bottom-13 left-2 mb-2 w-[calc(100%-1rem)] bg-white rounded-lg shadow-lg border border-zinc-200 py-1 z-50">
+        <div className="absolute bottom-13 right-2 mb-2 w-24 bg-white rounded-lg shadow-lg border border-zinc-200 py-1 z-50">
           <button
             onClick={() => {
               // your logout logic here
