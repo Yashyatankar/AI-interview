@@ -1,16 +1,14 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import '@tabler/icons-webfont/dist/tabler-icons.css';
-import axios from "axios";
 import useCurrentUser from "./useCurrentUser";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import logout from "./apis/logout";
-
 
 const navItems = [
   { section: "Main" },
   { icon: "layout-dashboard", label: "Dashboard", path: "/dashboard" },
-  { icon: "microphone", label: "Mock Interviews", path: "/session-setup"},
-  { icon: "file-text", label: "My Sessions", path: "/history"},
+  { icon: "microphone", label: "Mock Interviews", path: "/session-setup" },
+  { icon: "file-text", label: "My Sessions", path: "/history" },
   { icon: "chart-bar", label: "Analytics", path: "/analytics" },
   { section: "Prepare" },
   { icon: "brain", label: "Question Bank", path: "/questions" },
@@ -21,34 +19,30 @@ const navItems = [
   { icon: "help-circle", label: "Help & Support", path: "/help" },
 ];
 
-
-
-const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
+const SideBar = ({ onNavigate }) => {
   const navigate = useNavigate();
+  const location = useLocation(); // tracks the actual current URL
   const [collapsed, setCollapsed] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const user = useCurrentUser();
-
-
 
   const handleLogout = async () => {
     try {
       await logout();
       console.log("Logout successful");
     } catch (error) {
-      console.error("Logout failed:");
-      console.error("Logout error:", error);
+      console.error("Logout failed:", error);
     } finally {
       setShowMenu(false);
-      navigate("/"); 
+      navigate("/");
     }
   };
 
   return (
     <aside
       className={`flex flex-col h-screen bg-gray-800 shadow-sm transition-all duration-250 ease-in-out overflow-hidden relative flex-shrink-0 ${
-    collapsed ? "w-14" : "w-60"
-  }`}
+        collapsed ? "w-14" : "w-60"
+      }`}
     >
       {/* Header */}
       <div className="flex items-center h-12 px-2 flex-shrink-0">
@@ -66,9 +60,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
         >
           <i
             className={`ti ${
-              collapsed
-                ? "ti-layout-sidebar-left-expand"
-                : "ti-layout-sidebar-left-collapse"
+              collapsed ? "ti-layout-sidebar-left-expand" : "ti-layout-sidebar-left-collapse"
             } text-lg`}
           />
         </button>
@@ -90,13 +82,15 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
             );
           }
 
-          const isActive = activeRoute === item.path;
-          
+          const isActive = location.pathname === item.path; // now compares against real URL
 
           return (
             <div key={i} className="relative group mb-0.5">
               <button
-                onClick={() => navigate?.(item.path)}
+                onClick={() => {
+                  navigate(item.path);
+                  onNavigate?.(item.path);
+                }}
                 className={`w-full flex items-center gap-2.5 px-2.5 h-9 rounded-lg text-sm transition-colors ${
                   isActive
                     ? "bg-[#6366F1] text-[#ffffff]"
@@ -121,7 +115,6 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
                 )}
               </button>
 
-              {/* Tooltip — only shows when collapsed */}
               {collapsed && (
                 <div className="absolute left-[52px] top-1/2 -translate-y-1/2 bg-zinc-900 text-white text-xs px-2.5 py-1.5 rounded-md whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-50 shadow-md">
                   {item.label}
@@ -133,10 +126,11 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       </nav>
 
       {/* Footer / User */}
-      <div  className="p-2 flex-shrink-0">
-        <div 
-        onClick={() => setShowMenu(!showMenu)}
-        className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6366F1]  transition-colors">
+      <div className="p-2 flex-shrink-0">
+        <div
+          onClick={() => setShowMenu(!showMenu)}
+          className="relative group flex items-center gap-2.5 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-[#6366F1] transition-colors"
+        >
           <div className="w-7 h-7 rounded-full bg-[#e63946] flex items-center justify-center text-white text-xs font-medium flex-shrink-0">
             {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
           </div>
@@ -145,7 +139,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
               collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           >
-            <p className="text-[13px] font-medium text-white  truncate">{user?.username}</p>
+            <p className="text-[13px] font-medium text-white truncate">{user?.username}</p>
             <p className="text-[11px] text-zinc-400 truncate">{user?.email}</p>
           </div>
           {!collapsed && (
@@ -163,11 +157,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
       {showMenu && (
         <div className="absolute bottom-13 right-2 mb-2 w-24 bg-white rounded-lg shadow-lg border border-zinc-200 py-1 z-50">
           <button
-            onClick={() => {
-              // your logout logic here
-              setShowMenu(false);
-              handleLogout();
-            }}
+            onClick={handleLogout}
             className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
           >
             <i className="ti ti-logout text-base" aria-hidden="true" />

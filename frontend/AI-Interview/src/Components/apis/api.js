@@ -22,8 +22,10 @@ api.interceptors.response.use(
 
       try {
         const refresh = localStorage.getItem('refresh');
-        const { data } = await axios.post('/api/token/refresh/', { refresh }); // ← confirm this matches your Django urls.py
-
+        const { data } = await axios.post('/accounts/token/refresh/', { refresh });
+        if (!data.access) {
+          throw new Error('No access token returned');
+        }
         localStorage.setItem('access', data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
 
