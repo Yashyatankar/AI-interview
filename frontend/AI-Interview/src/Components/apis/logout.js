@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
 export const logout = async () => {
   const refresh = localStorage.getItem("refresh");
   try {
-    const response = await api.post("/accounts/logout/", { refresh });
+    const response = await api.get("/accounts/logout/", { refresh });
     return response.data;
   } catch (error) {
     console.error("Logout failed:", error);

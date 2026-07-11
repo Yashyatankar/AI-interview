@@ -5,11 +5,12 @@ import useCurrentUser from "./useCurrentUser";
 import { useNavigate } from 'react-router-dom';
 import logout from "./apis/logout";
 
+
 const navItems = [
   { section: "Main" },
   { icon: "layout-dashboard", label: "Dashboard", path: "/dashboard" },
   { icon: "microphone", label: "Mock Interviews", path: "/session-setup"},
-  { icon: "file-text", label: "My Sessions", path: "/session-History"},
+  { icon: "file-text", label: "My Sessions", path: "/history"},
   { icon: "chart-bar", label: "Analytics", path: "/analytics" },
   { section: "Prepare" },
   { icon: "brain", label: "Question Bank", path: "/questions" },
@@ -33,8 +34,9 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const handleLogout = async () => {
     try {
       await logout();
+      console.log("Logout successful");
     } catch (error) {
-      
+      console.error("Logout failed:");
       console.error("Logout error:", error);
     } finally {
       setShowMenu(false);

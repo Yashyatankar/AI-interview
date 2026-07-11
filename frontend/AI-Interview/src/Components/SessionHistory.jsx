@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import SideBar from "./SideBar";
 
 
 
@@ -40,72 +41,85 @@ export default function SessionHistory() {
   };
 
   return (
-    <div className="w-full bg-[#111827] rounded-xl border border-gray-800 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-800">
-        <h2 className="text-lg font-semibold text-gray-100">Session History</h2>
-      </div>
+    <>
+        <div className="flex flex-col md:flex-row min-h-screen bg-[#0F1420] text-gray-100 relative">
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left">
-          <thead>
-            <tr className="bg-[#0F1420] text-gray-400 uppercase text-xs tracking-wider">
-              <th className="px-6 py-3">Job Field</th>
-              <th className="px-6 py-3">Tech Stack</th>
-              <th className="px-6 py-3">Date</th>
-              <th className="px-6 py-3">Questions</th>
-              <th className="px-6 py-3">Score</th>
-              <th className="px-6 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-800">
-            {loading ? (
-              <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                  Loading sessions...
-                </td>
-              </tr>
-            ) : sessions.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                  No sessions attempted yet.
-                </td>
-              </tr>
-            ) : (
-              sessions.map((session) => (
-                <tr
-                  key={session.id}
-                  className="hover:bg-[#161d2e] transition-colors"
-                >
-                  <td className="px-6 py-4 text-gray-200 font-medium">
-                    {session.job_field}
-                  </td>
-                  <td className="px-6 py-4 text-gray-400">
-                    {session.programming}
-                  </td>
-                  <td className="px-6 py-4 text-gray-400">
-                    {formatDate(session.created_at)}
-                  </td>
-                  <td className="px-6 py-4 text-gray-400">
-                    {session.total_questions ?? session.session?.length}
-                  </td>
-                  <td className={`px-6 py-4 font-semibold ${scoreColor(session.overall_score)}`}>
-                    {session.overall_score?.toFixed(1) ?? "—"}/10
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => window.location.href = `/sessions/${session.id}`}
-                      className="text-indigo-400 hover:text-indigo-300 font-medium"
-                    >
-                      View →
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    
-    </div>
+            <div className="flex-shrink-0 sticky top-0 h-full">
+                <SideBar />
+            </div>
+            
+            <div className="w-full bg-[#111827] rounded-xl border border-gray-800 overflow-hidden">
+                
+            <div className="px-6 py-4 border-b border-gray-800">
+                <h2 className="text-lg font-semibold text-gray-100">Session History</h2>
+            </div>
+
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                <thead>
+                    <tr className="bg-[#0F1420] text-gray-400 uppercase text-xs tracking-wider">
+                    <th className="px-6 py-3">Job Field</th>
+                    <th className="px-6 py-3">Tech Stack</th>
+                    <th className="px-6 py-3">Date</th>
+                    <th className="px-6 py-3">Questions</th>
+                    <th className="px-6 py-3">Score</th>
+                    <th className="px-6 py-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-800">
+                    {loading ? (
+                    <tr>
+                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                        Loading sessions...
+                        </td>
+                    </tr>
+                    ) : sessions.length === 0 ? (
+                    <tr>
+                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                        No sessions attempted yet.
+                        </td>
+                    </tr>
+                    ) : (
+                    sessions.map((session) => (
+                        <tr
+                        key={session.id}
+                        className="hover:bg-[#161d2e] transition-colors"
+                        >
+                        <td className="px-6 py-4 text-gray-200 font-medium">
+                            {session.job_field}
+                        </td>
+                        <td className="px-6 py-4 text-gray-400">
+                            {session.programming}
+                        </td>
+                        <td className="px-6 py-4 text-gray-400">
+                            {formatDate(session.created_at)}
+                        </td>
+                        <td className="px-6 py-4 text-gray-400">
+                            {session.total_questions ?? session.session?.length}
+                        </td>
+                        <td className={`px-6 py-4 font-semibold ${scoreColor(session.overall_score)}`}>
+                            {session.overall_score?.toFixed(1) ?? "—"}/10
+                        </td>
+                        <td className="px-6 py-4">
+                            <button
+                            onClick={() => window.location.href = `/sessions/${session.id}`}
+                            className="text-indigo-400 hover:text-indigo-300 font-medium"
+                            >
+                            View →
+                            </button>
+                        </td>
+                        </tr>
+                    ))
+                    )}
+                </tbody>
+                </table>
+            </div>
+            
+            </div>
+
+        </div>
+        
+    </>
+   
   );
 }
