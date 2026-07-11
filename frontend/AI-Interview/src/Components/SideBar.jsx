@@ -3,6 +3,7 @@ import '@tabler/icons-webfont/dist/tabler-icons.css';
 import axios from "axios";
 import useCurrentUser from "./useCurrentUser";
 import { useNavigate } from 'react-router-dom';
+import logout from "./apis/logout";
 
 const navItems = [
   { section: "Main" },
@@ -26,6 +27,20 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const user = useCurrentUser();
+
+
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      
+      console.error("Logout error:", error);
+    } finally {
+      setShowMenu(false);
+      navigate("/login"); 
+    }
+  };
 
   return (
     <aside
@@ -149,6 +164,7 @@ const SideBar = ({ activeRoute = "/dashboard", onNavigate }) => {
             onClick={() => {
               // your logout logic here
               setShowMenu(false);
+              handleLogout();
             }}
             className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
           >
