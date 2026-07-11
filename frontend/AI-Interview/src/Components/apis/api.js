@@ -19,7 +19,7 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      
+
       try {
         const refresh = localStorage.getItem('refresh');
         const { data } = await axios.post('localhost:5173/accounts/token/refresh/', { refresh });
@@ -31,7 +31,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
-        window.location.href = '/login'; // or '/', match your app's route
+        window.location.href = '/'; // or '/', match your app's route
         return Promise.reject(refreshError);
       }
     }
