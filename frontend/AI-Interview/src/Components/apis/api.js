@@ -12,30 +12,41 @@ api.interceptors.request.use((config) => {
 });
       
 // Handle expired access tokens
+const api = axios.create({
+  baseURL: 'http://localhost:8000', // Your Django server
+});
+
+// Response Interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
+    // Check if error is 401 and we haven't already retried this request
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const refresh = localStorage.getItem('refresh');
-        const { data } = await axios.post('http://127.0.0.1:8000/accounts/token/refresh/', { refresh });
+        const refreshToken = localStorage.getItem('refreshToken');
         
-        localStorage.setItem('access', data.access);
-        originalRequest.headers.Authorization = `Bearer ${data.access}`;
+        // Request a new access token from DRF
+        const res = await axios.post('http://localhost:8000/api/token/refresh/', {
+          refresh: refreshToken,
+        });
 
+        const newAccessToken = res.data.access;
+        localStorage.setItem('accessToken', newAccessToken);
+
+        // Update the failed request header and retry it
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } catch (refreshError) {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        window.location.href = '/'; // or '/', match your app's route
+        // Refresh token expired or invalid; redirect to login
+        localStorage.clear();
+        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }
-
     return Promise.reject(error);
   }
 );
