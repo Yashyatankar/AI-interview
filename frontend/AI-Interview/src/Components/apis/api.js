@@ -4,49 +4,56 @@ const api = axios.create({ baseURL: '/' });
 
 // Attach access token to every request
 api.interceptors.request.use((config) => {
+  
   const token = localStorage.getItem('access');
+
   if (token) {
+
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
       
 // Handle expired access tokens
-const api = axios.create({
-  baseURL: 'http://localhost:8000', // Your Django server
-});
-
-// Response Interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Check if error is 401 and we haven't already retried this request
+    // 1. Check for 401 and prevent infinite loops
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = localStorage.getItem('refresh');
         
-        // Request a new access token from DRF
-        const res = await axios.post('http://localhost:8000/api/token/refresh/', {
-          refresh: refreshToken,
+        // 2. Call refresh endpoint
+        const { data } = await axios.post('http://127.0.0.1:8000/accounts/token/refresh/', { 
+          refresh: refreshToken 
         });
+        
+        // 3. Update tokens
+        localStorage.setItem('access', data.access);
+        // Only update refresh if the server actually sent a new one
+        if (data.refresh) {
+          localStorage.setItem('refresh', data.refresh);
+        }
+        
+        // 4. Update headers
+        api.defaults.headers.common['Authorization'] = `Bearer ${data.access}`;
+        originalRequest.headers['Authorization'] = `Bearer ${data.access}`;
 
-        const newAccessToken = res.data.access;
-        localStorage.setItem('accessToken', newAccessToken);
-
-        // Update the failed request header and retry it
-        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        // 5. Retry the original request
         return api(originalRequest);
       } catch (refreshError) {
-        // Refresh token expired or invalid; redirect to login
+        // If refresh fails, clear everything and go to login
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/'; 
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
