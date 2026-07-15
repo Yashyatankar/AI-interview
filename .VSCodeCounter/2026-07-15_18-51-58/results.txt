@@ -1,0 +1,103 @@
+Date : 2026-07-15 18:51:58
+Directory : d:\Python\DjangoApis\Project-2
+Total : 52 files,  10122 codes, 160 comments, 447 blanks, all 10729 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JSON           |          4 |      8,071 |          0 |          4 |      8,075 |
+| JavaScript JSX |         11 |      1,034 |         13 |        137 |      1,184 |
+| Python         |         27 |        840 |        135 |        266 |      1,241 |
+| JavaScript     |          6 |        136 |         11 |         28 |        175 |
+| PostCSS        |          1 |         16 |          1 |          3 |         20 |
+| HTML           |          1 |         13 |          0 |          1 |         14 |
+| Markdown       |          2 |         12 |          0 |          8 |         20 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |         52 |     10,122 |        160 |        447 |     10,729 |
+| . (Files)                                                                                        |          1 |          3 |          0 |          0 |          3 |
+| backend                                                                                          |         27 |        840 |        135 |        266 |      1,241 |
+| backend\main                                                                                     |         27 |        840 |        135 |        266 |      1,241 |
+| backend\main (Files)                                                                             |          1 |         15 |          3 |          5 |         23 |
+| backend\main\accounts                                                                            |         10 |        259 |         13 |         81 |        353 |
+| backend\main\accounts (Files)                                                                    |          8 |        223 |         12 |         73 |        308 |
+| backend\main\accounts\migrations                                                                 |          2 |         36 |          1 |          8 |         45 |
+| backend\main\dashboard                                                                           |         11 |        452 |         62 |        114 |        628 |
+| backend\main\dashboard (Files)                                                                   |          9 |        383 |         61 |        106 |        550 |
+| backend\main\dashboard\migrations                                                                |          2 |         69 |          1 |          8 |         78 |
+| backend\main\main                                                                                |          5 |        114 |         57 |         66 |        237 |
+| frontend                                                                                         |         24 |      9,279 |         25 |        181 |      9,485 |
+| frontend (Files)                                                                                 |          2 |      2,014 |          0 |          2 |      2,016 |
+| frontend\AI-Interview                                                                            |         22 |      7,265 |         25 |        179 |      7,469 |
+| frontend\AI-Interview (Files)                                                                    |          6 |      6,115 |          1 |         15 |      6,131 |
+| frontend\AI-Interview\src                                                                        |         16 |      1,150 |         24 |        164 |      1,338 |
+| frontend\AI-Interview\src (Files)                                                                |          3 |         49 |          1 |          8 |         58 |
+| frontend\AI-Interview\src\Components                                                             |         13 |      1,101 |         23 |        156 |      1,280 |
+| frontend\AI-Interview\src\Components (Files)                                                     |          9 |        890 |         12 |        123 |      1,025 |
+| frontend\AI-Interview\src\Components\DashBoard                                                   |          1 |        118 |          1 |         10 |        129 |
+| frontend\AI-Interview\src\Components\apis                                                        |          3 |         93 |         10 |         23 |        126 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                         | language       | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| d:\Python\DjangoApis\Project-2\README.md                                                         | Markdown       |          3 |          0 |          0 |          3 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\__init__.py                                 | Python         |          0 |          0 |          1 |          1 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\admin.py                                    | Python         |          6 |          0 |          4 |         10 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\apps.py                                     | Python         |          3 |          0 |          3 |          6 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\migrations\0001_initial.py                  | Python         |         36 |          1 |          7 |         44 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\migrations\__init__.py                      | Python         |          0 |          0 |          1 |          1 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\models.py                                   | Python         |          9 |          1 |          5 |         15 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\serializers.py                              | Python         |         28 |          0 |         15 |         43 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\tests.py                                    | Python         |          1 |          1 |          2 |          4 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\urls.py                                     | Python         |         13 |          0 |          0 |         13 |
+| d:\Python\DjangoApis\Project-2\backend\main\accounts\views.py                                    | Python         |        163 |         10 |         43 |        216 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\GrokService.py                             | Python         |         59 |         33 |         15 |        107 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\__init__.py                                | Python         |          0 |          0 |          1 |          1 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\admin.py                                   | Python         |          1 |          1 |          2 |          4 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\apps.py                                    | Python         |          3 |          0 |          3 |          6 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\migrations\0001_initial.py                 | Python         |         69 |          1 |          7 |         77 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\migrations\__init__.py                     | Python         |          0 |          0 |          1 |          1 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\models.py                                  | Python         |        104 |          7 |         23 |        134 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\serializers.py                             | Python         |         79 |          0 |         27 |        106 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\tests.py                                   | Python         |          8 |          0 |          4 |         12 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\urls.py                                    | Python         |          7 |          0 |          2 |          9 |
+| d:\Python\DjangoApis\Project-2\backend\main\dashboard\views.py                                   | Python         |        122 |         20 |         29 |        171 |
+| d:\Python\DjangoApis\Project-2\backend\main\main\__init__.py                                     | Python         |          0 |          0 |          1 |          1 |
+| d:\Python\DjangoApis\Project-2\backend\main\main\asgi.py                                         | Python         |          4 |          8 |          5 |         17 |
+| d:\Python\DjangoApis\Project-2\backend\main\main\settings.py                                     | Python         |         99 |         25 |         52 |        176 |
+| d:\Python\DjangoApis\Project-2\backend\main\main\urls.py                                         | Python         |          7 |         16 |          3 |         26 |
+| d:\Python\DjangoApis\Project-2\backend\main\main\wsgi.py                                         | Python         |          4 |          8 |          5 |         17 |
+| d:\Python\DjangoApis\Project-2\backend\main\manage.py                                            | Python         |         15 |          3 |          5 |         23 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\README.md                                   | Markdown       |          9 |          0 |          8 |         17 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\eslint.config.js                            | JavaScript     |         20 |          0 |          2 |         22 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\index.html                                  | HTML           |         13 |          0 |          1 |         14 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\package-lock.json                           | JSON           |      6,024 |          0 |          1 |      6,025 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\package.json                                | JSON           |         33 |          0 |          1 |         34 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\App.jsx                                 | JavaScript JSX |         24 |          0 |          3 |         27 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\AuthPage.jsx                 | JavaScript JSX |        264 |          7 |         41 |        312 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\DashBoard.jsx                | JavaScript JSX |         37 |          0 |          8 |         45 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\DashBoard\HistorySection.jsx | JavaScript JSX |        118 |          1 |         10 |        129 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\OAuthCallback.jsx            | JavaScript JSX |         41 |          0 |          9 |         50 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\Session.jsx                  | JavaScript JSX |        141 |          0 |         16 |        157 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SessionHistory.jsx           | JavaScript JSX |        107 |          0 |         18 |        125 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SessionSetup.jsx             | JavaScript JSX |        122 |          0 |         14 |        136 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SideBar.jsx                  | JavaScript JSX |        157 |          3 |         12 |        172 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\api.js                  | JavaScript     |         37 |          9 |         15 |         61 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\interview.js            | JavaScript     |         33 |          0 |          4 |         37 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\logout.js               | JavaScript     |         23 |          1 |          4 |         28 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\constants.js                 | JavaScript     |          7 |          0 |          1 |          8 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\useCurrentUser.jsx           | JavaScript JSX |         14 |          2 |          4 |         20 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\index.css                               | PostCSS        |         16 |          1 |          3 |         20 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\main.jsx                                | JavaScript JSX |          9 |          0 |          2 |         11 |
+| d:\Python\DjangoApis\Project-2\frontend\AI-Interview\vite.config.js                              | JavaScript     |         16 |          1 |          2 |         19 |
+| d:\Python\DjangoApis\Project-2\frontend\package-lock.json                                        | JSON           |      2,007 |          0 |          1 |      2,008 |
+| d:\Python\DjangoApis\Project-2\frontend\package.json                                             | JSON           |          7 |          0 |          1 |          8 |
+| Total                                                                                            |                |     10,122 |        160 |        447 |     10,729 |
++--------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

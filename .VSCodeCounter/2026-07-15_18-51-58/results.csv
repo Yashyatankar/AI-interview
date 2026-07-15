@@ -1,0 +1,54 @@
+"filename", "language", "Markdown", "JSON", "JavaScript", "PostCSS", "JavaScript JSX", "HTML", "Python", "comment", "blank", "total"
+"d:\Python\DjangoApis\Project-2\README.md", "Markdown", 3, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\admin.py", "Python", 0, 0, 0, 0, 0, 0, 6, 0, 4, 10
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\apps.py", "Python", 0, 0, 0, 0, 0, 0, 3, 0, 3, 6
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\migrations\0001_initial.py", "Python", 0, 0, 0, 0, 0, 0, 36, 1, 7, 44
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\migrations\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\models.py", "Python", 0, 0, 0, 0, 0, 0, 9, 1, 5, 15
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\serializers.py", "Python", 0, 0, 0, 0, 0, 0, 28, 0, 15, 43
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\tests.py", "Python", 0, 0, 0, 0, 0, 0, 1, 1, 2, 4
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\urls.py", "Python", 0, 0, 0, 0, 0, 0, 13, 0, 0, 13
+"d:\Python\DjangoApis\Project-2\backend\main\accounts\views.py", "Python", 0, 0, 0, 0, 0, 0, 163, 10, 43, 216
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\GrokService.py", "Python", 0, 0, 0, 0, 0, 0, 59, 33, 15, 107
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\admin.py", "Python", 0, 0, 0, 0, 0, 0, 1, 1, 2, 4
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\apps.py", "Python", 0, 0, 0, 0, 0, 0, 3, 0, 3, 6
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\migrations\0001_initial.py", "Python", 0, 0, 0, 0, 0, 0, 69, 1, 7, 77
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\migrations\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\models.py", "Python", 0, 0, 0, 0, 0, 0, 104, 7, 23, 134
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\serializers.py", "Python", 0, 0, 0, 0, 0, 0, 79, 0, 27, 106
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\tests.py", "Python", 0, 0, 0, 0, 0, 0, 8, 0, 4, 12
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\urls.py", "Python", 0, 0, 0, 0, 0, 0, 7, 0, 2, 9
+"d:\Python\DjangoApis\Project-2\backend\main\dashboard\views.py", "Python", 0, 0, 0, 0, 0, 0, 122, 20, 29, 171
+"d:\Python\DjangoApis\Project-2\backend\main\main\__init__.py", "Python", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Python\DjangoApis\Project-2\backend\main\main\asgi.py", "Python", 0, 0, 0, 0, 0, 0, 4, 8, 5, 17
+"d:\Python\DjangoApis\Project-2\backend\main\main\settings.py", "Python", 0, 0, 0, 0, 0, 0, 99, 25, 52, 176
+"d:\Python\DjangoApis\Project-2\backend\main\main\urls.py", "Python", 0, 0, 0, 0, 0, 0, 7, 16, 3, 26
+"d:\Python\DjangoApis\Project-2\backend\main\main\wsgi.py", "Python", 0, 0, 0, 0, 0, 0, 4, 8, 5, 17
+"d:\Python\DjangoApis\Project-2\backend\main\manage.py", "Python", 0, 0, 0, 0, 0, 0, 15, 3, 5, 23
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\README.md", "Markdown", 9, 0, 0, 0, 0, 0, 0, 0, 8, 17
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\eslint.config.js", "JavaScript", 0, 0, 20, 0, 0, 0, 0, 0, 2, 22
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\index.html", "HTML", 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\package-lock.json", "JSON", 0, 6024, 0, 0, 0, 0, 0, 0, 1, 6025
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\package.json", "JSON", 0, 33, 0, 0, 0, 0, 0, 0, 1, 34
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\App.jsx", "JavaScript JSX", 0, 0, 0, 0, 24, 0, 0, 0, 3, 27
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\AuthPage.jsx", "JavaScript JSX", 0, 0, 0, 0, 264, 0, 0, 7, 41, 312
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\DashBoard.jsx", "JavaScript JSX", 0, 0, 0, 0, 37, 0, 0, 0, 8, 45
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\DashBoard\HistorySection.jsx", "JavaScript JSX", 0, 0, 0, 0, 118, 0, 0, 1, 10, 129
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\OAuthCallback.jsx", "JavaScript JSX", 0, 0, 0, 0, 41, 0, 0, 0, 9, 50
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\Session.jsx", "JavaScript JSX", 0, 0, 0, 0, 141, 0, 0, 0, 16, 157
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SessionHistory.jsx", "JavaScript JSX", 0, 0, 0, 0, 107, 0, 0, 0, 18, 125
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SessionSetup.jsx", "JavaScript JSX", 0, 0, 0, 0, 122, 0, 0, 0, 14, 136
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\SideBar.jsx", "JavaScript JSX", 0, 0, 0, 0, 157, 0, 0, 3, 12, 172
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\api.js", "JavaScript", 0, 0, 37, 0, 0, 0, 0, 9, 15, 61
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\interview.js", "JavaScript", 0, 0, 33, 0, 0, 0, 0, 0, 4, 37
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\apis\logout.js", "JavaScript", 0, 0, 23, 0, 0, 0, 0, 1, 4, 28
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\constants.js", "JavaScript", 0, 0, 7, 0, 0, 0, 0, 0, 1, 8
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\Components\useCurrentUser.jsx", "JavaScript JSX", 0, 0, 0, 0, 14, 0, 0, 2, 4, 20
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\index.css", "PostCSS", 0, 0, 0, 16, 0, 0, 0, 1, 3, 20
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\src\main.jsx", "JavaScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 2, 11
+"d:\Python\DjangoApis\Project-2\frontend\AI-Interview\vite.config.js", "JavaScript", 0, 0, 16, 0, 0, 0, 0, 1, 2, 19
+"d:\Python\DjangoApis\Project-2\frontend\package-lock.json", "JSON", 0, 2007, 0, 0, 0, 0, 0, 0, 1, 2008
+"d:\Python\DjangoApis\Project-2\frontend\package.json", "JSON", 0, 7, 0, 0, 0, 0, 0, 0, 1, 8
+"Total", "-", 12, 8071, 136, 16, 1034, 13, 840, 160, 447, 10729

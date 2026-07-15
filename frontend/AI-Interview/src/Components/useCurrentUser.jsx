@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from './apis/api'; // Import your custom axios instance with the interceptor
+import api from './apis/api'; 
 
 const useCurrentUser = () => {
   const [user, setUser] = useState(null);
